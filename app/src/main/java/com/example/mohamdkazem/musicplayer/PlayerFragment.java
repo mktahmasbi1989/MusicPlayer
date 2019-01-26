@@ -56,6 +56,12 @@ public class PlayerFragment extends Fragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        musicPlayer.release();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_player, container, false);
@@ -80,23 +86,25 @@ public class PlayerFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 //                    musicPlayer.play(mMusic,1);
-                    try {
-                        String[] fileNames =  assetManager.list(MUSIC_FOLDER);
-                        for (String fileName : fileNames) {
-                            String assetPath = MUSIC_FOLDER + File.separator + fileName;
-                            Music music = new Music(assetPath);
-                            AssetFileDescriptor afd = assetManager.openFd(music.getmAssetPath());
+
+                           try {
+                            AssetFileDescriptor afd = assetManager.openFd(mMusic.getmAssetPath());
                             mediaPlayer=new MediaPlayer();
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                 mediaPlayer.setDataSource(afd);
                                 mediaPlayer.prepare();
                                 mediaPlayer.start();
+                                afd.close();
                             }
 
+                        }catch (IllegalArgumentException e) {
+                               e.printStackTrace();
+                           } catch (IllegalStateException e) {
+                               e.printStackTrace();
+                           } catch (IOException e) {
+                               e.printStackTrace();
+
                         }
-                    } catch (IOException e) {
-                        Log.e(TAG, "file cannot be loaded", e);
-                    }
                 }
             });
         }
