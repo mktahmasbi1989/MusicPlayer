@@ -2,12 +2,11 @@ package com.example.mohamdkazem.musicplayer.model;
 
 public class Music {
 
-    private long musicId;
+    private Integer musicId;
     private String title;
     private String artistName;
     private String mAssetPath;
     private String album;
-
 
     public Music(String mAssetPath) {
         this.mAssetPath = mAssetPath;
@@ -17,8 +16,11 @@ public class Music {
 
     }
 
-    public long getMusicId() {
+    public Integer getMusicId() {
         return musicId;
+    }
+    public void setMusicId(Integer musicId) {
+        this.musicId = musicId;
     }
     public String getTitle() {
         return title;
