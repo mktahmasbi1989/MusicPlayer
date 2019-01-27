@@ -37,14 +37,6 @@ public class PlayerFragment extends Fragment {
     private SeekBar mSeekBar;
     private Handler mSeekbarUpdateHandler = new Handler();
 
-    private Runnable mUpdateSeekbar = new Runnable() {
-        @Override
-        public void run() {
-            mSeekBar.setProgress(mediaPlayer.getCurrentPosition());
-            mSeekbarUpdateHandler.postDelayed(this, 50);
-            setCurrentDuration();
-        }
-    };
 
 
     public PlayerFragment() {
@@ -98,6 +90,7 @@ public class PlayerFragment extends Fragment {
         });
 
 
+
         return view;
     }
 
@@ -129,8 +122,27 @@ public class PlayerFragment extends Fragment {
                                 mSeekBar.setMax(mediaPlayer.getDuration());
                                 mUpdateSeekbar.run();
 
-                            }
+                                mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                                    @Override
+                                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                                        if (fromUser){
+                                            mSeekBar.setProgress(progress);
+                                            mediaPlayer.seekTo(progress);
+                                            mUpdateSeekbar.run();
+                                        }
+                                    }
 
+                                    @Override
+                                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                                    }
+
+                                    @Override
+                                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                                    }
+                                });
+                            }
 
                         }catch (IllegalArgumentException e) {
                                e.printStackTrace();
@@ -138,7 +150,6 @@ public class PlayerFragment extends Fragment {
                                e.printStackTrace();
                            } catch (IOException e) {
                                e.printStackTrace();
-
                         }
                 }
             });
@@ -150,27 +161,10 @@ public class PlayerFragment extends Fragment {
         }
     }
 
-    private void setTotalDuration() {
-        duration=mediaPlayer.getDuration();
-        String currTime = String.format("%02d:%02d",
-                TimeUnit.MILLISECONDS.toMinutes(duration),
-                TimeUnit.MILLISECONDS.toSeconds(duration) -
-                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration)));
-        textTotalDurataion.setText(currTime);
-    }
-    private void setCurrentDuration(){
-        duration=mediaPlayer.getCurrentPosition();
-        String currTime = String.format("%02d:%02d",
-                TimeUnit.MILLISECONDS.toMinutes(duration),
-                TimeUnit.MILLISECONDS.toSeconds(duration) -
-                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration)));
-        textDuration.setText(currTime);
-    }
-
     private class MusicAdaptor extends RecyclerView.Adapter<MusicdHolder> {
 
         private List<Music> musicList;
-        public MusicAdaptor(List<Music> musicList) {
+        MusicAdaptor(List<Music> musicList) {
             this.musicList = musicList;
         }
         private void setMusicList(List<Music> list){
@@ -195,7 +189,30 @@ public class PlayerFragment extends Fragment {
             return musicList.size();
         }
     }
-
+    private void setTotalDuration() {
+        duration=mediaPlayer.getDuration();
+        String currTime = String.format("%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(duration),
+                TimeUnit.MILLISECONDS.toSeconds(duration) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration)));
+        textTotalDurataion.setText(currTime);
+    }
+    private void setCurrentDuration(){
+        duration=mediaPlayer.getCurrentPosition();
+        String currTime = String.format("%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(duration),
+                TimeUnit.MILLISECONDS.toSeconds(duration) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration)));
+        textDuration.setText(currTime);
+    }
+    private Runnable mUpdateSeekbar = new Runnable() {
+        @Override
+        public void run() {
+            mSeekBar.setProgress(mediaPlayer.getCurrentPosition());
+            mSeekbarUpdateHandler.postDelayed(this, 50);
+            setCurrentDuration();
+        }
+    };
 
     }
 
