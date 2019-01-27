@@ -3,32 +3,24 @@ package com.example.mohamdkazem.musicplayer;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.MediaPlayer;
-import android.media.session.MediaController;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.ButtonBarLayout;
 import androidx.fragment.app.Fragment;
-import androidx.media.MediaController2;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
-
+import android.widget.SeekBar;
+import android.widget.TextView;
 import com.example.mohamdkazem.musicplayer.model.Music;
-import com.google.android.material.button.MaterialButton;
-
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
-
-import static androidx.constraintlayout.motion.widget.MotionScene.TAG;
+import java.util.concurrent.TimeUnit;
 
 
 public class PlayerFragment extends Fragment {
@@ -40,6 +32,20 @@ public class PlayerFragment extends Fragment {
     private MediaPlayer mediaPlayer;
     private AssetManager assetManager;
     private ImageButton btnStop,btnPause;
+    private int duration;
+    private TextView textTotalDurataion,textDuration;
+    private SeekBar mSeekBar;
+    private Handler mSeekbarUpdateHandler = new Handler();
+
+    private Runnable mUpdateSeekbar = new Runnable() {
+        @Override
+        public void run() {
+            mSeekBar.setProgress(mediaPlayer.getCurrentPosition());
+            mSeekbarUpdateHandler.postDelayed(this, 50);
+            setCurrentDuration();
+        }
+    };
+
 
     public PlayerFragment() {
         // Required empty public constructor
@@ -71,11 +77,15 @@ public class PlayerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_player, container, false);
+        mSeekBar=view.findViewById(R.id.songProgressBar);
+        btnPause=view.findViewById(R.id.btnPlay);
+        textTotalDurataion=view.findViewById(R.id.songTotalDurationLabel);
         mRecyclerView = view.findViewById(R.id.beat_box_recycler_view);
+        textDuration=view.findViewById(R.id.songCurentDurationLabel);
+
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         musicAdaptor=new MusicAdaptor(musicPlayer.getMusicList());
         mRecyclerView.setAdapter(musicAdaptor);
-        btnPause=view.findViewById(R.id.btnPlay);
 
         btnPause.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +125,12 @@ public class PlayerFragment extends Fragment {
                                 mediaPlayer.start();
                                 afd.close();
                                 btnPause.setBackgroundResource(R.drawable.btn_pause);
+                                setTotalDuration();
+                                mSeekBar.setMax(mediaPlayer.getDuration());
+                                mUpdateSeekbar.run();
+
                             }
+
 
                         }catch (IllegalArgumentException e) {
                                e.printStackTrace();
@@ -133,6 +148,23 @@ public class PlayerFragment extends Fragment {
             mMusic = music;
             mButton.setText(music.getTitle());
         }
+    }
+
+    private void setTotalDuration() {
+        duration=mediaPlayer.getDuration();
+        String currTime = String.format("%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(duration),
+                TimeUnit.MILLISECONDS.toSeconds(duration) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration)));
+        textTotalDurataion.setText(currTime);
+    }
+    private void setCurrentDuration(){
+        duration=mediaPlayer.getCurrentPosition();
+        String currTime = String.format("%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(duration),
+                TimeUnit.MILLISECONDS.toSeconds(duration) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration)));
+        textDuration.setText(currTime);
     }
 
     private class MusicAdaptor extends RecyclerView.Adapter<MusicdHolder> {

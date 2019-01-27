@@ -51,14 +51,13 @@
         android:layout_below="@+id/player_header_bg"
         android:orientation="horizontal"
         >
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            android:id="@+id/beat_box_recycler_view"
+            >
 
-        <ImageView
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher_background"
-            />
-
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 
