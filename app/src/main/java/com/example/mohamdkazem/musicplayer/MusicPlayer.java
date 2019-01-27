@@ -78,12 +78,7 @@ public class MusicPlayer {
         if (music.getMusicId() == null)
             return;
 
-        mSoundPool.play(music.getMusicId(),
-                1.0f,
-                1.0f,
-                1,
-                0,
-                rate);
+        mSoundPool.play(music.getMusicId(),1.0f, 1.0f, 1, 0, rate);
     }
 
     public void release() {

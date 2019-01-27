@@ -14,7 +14,7 @@ public class PlayerActivity extends SingleFragmentActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private String[] tabTitles={"Tab1","Tab2","Tab3","Tab4"};
+    private String[] tabTitles={"All","Artist","Album","Favorite"};
 
     @Override
     public Fragment createFragment() {
@@ -33,12 +33,13 @@ public class PlayerActivity extends SingleFragmentActivity {
             @NonNull
             @Override
             public Fragment getItem(int position) {
-                return PlayerFragment.newInstance();
+                    return PlayerFragment.newInstance();
+
             }
 
             @Override
             public int getCount() {
-                return 3;
+                return 4;
             }
 
             @Nullable

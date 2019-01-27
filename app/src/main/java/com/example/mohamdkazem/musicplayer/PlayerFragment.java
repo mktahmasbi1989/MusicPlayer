@@ -3,9 +3,11 @@ package com.example.mohamdkazem.musicplayer;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.MediaPlayer;
+import android.media.session.MediaController;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.ButtonBarLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,8 +17,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.mohamdkazem.musicplayer.model.Music;
+import com.google.android.material.button.MaterialButton;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +37,7 @@ public class PlayerFragment extends Fragment {
     private MusicAdaptor musicAdaptor;
     private MediaPlayer mediaPlayer;
     private AssetManager assetManager;
+    private Button btnStop;
 
     public PlayerFragment() {
         // Required empty public constructor
@@ -69,6 +74,15 @@ public class PlayerFragment extends Fragment {
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         musicAdaptor=new MusicAdaptor(musicPlayer.getMusicList());
         mRecyclerView.setAdapter(musicAdaptor);
+        btnStop=view.findViewById(R.id.btn_stop);
+
+        btnStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mediaPlayer.release();
+            }
+        });
+
         return view;
     }
 
