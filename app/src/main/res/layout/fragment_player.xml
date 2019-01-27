@@ -9,29 +9,86 @@
     android:orientation="vertical">
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="450dp"
         android:id="@+id/beat_box_recycler_view"
         >
 
     </androidx.recyclerview.widget.RecyclerView>
 
+
+
+
+
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/player_footer_bg"
+        android:layout_width="fill_parent"
         android:layout_height="100dp"
-        android:id="@+id/control_layout"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/bg_player_footer"
+        android:layout_alignParentBottom="true"
         app:layout_anchor="@id/beat_box_recycler_view"
         app:layout_anchorGravity="bottom"
-        android:orientation="vertical"
         >
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/seek_bar"/>
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/btn_stop"
-            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/rounded_corner"
+            >
+
+
+            <ImageButton
+                android:id="@+id/btnPrevious"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/img_btn_previous"
+                />
+
+            <ImageButton
+                android:id="@+id/btnBackward"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+
+                android:background="@drawable/img_btn_backward"
+                />
+
+
+            <ImageButton
+
+                android:id="@+id/btnPlay"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+
+                android:background="@drawable/btn_play"
+                />
+
+
+            <ImageButton
+                android:id="@+id/btnForward"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+
+                android:background="@drawable/img_btn_forward"
+                />
+
+
+            <ImageButton
+                android:id="@+id/btnNext"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+
+                android:background="@drawable/img_btn_next"
+                />
+
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
 

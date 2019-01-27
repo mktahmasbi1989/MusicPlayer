@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.ButtonBarLayout;
 import androidx.fragment.app.Fragment;
+import androidx.media.MediaController2;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.mohamdkazem.musicplayer.model.Music;
@@ -37,7 +39,7 @@ public class PlayerFragment extends Fragment {
     private MusicAdaptor musicAdaptor;
     private MediaPlayer mediaPlayer;
     private AssetManager assetManager;
-    private Button btnStop;
+    private ImageButton btnStop,btnPause;
 
     public PlayerFragment() {
         // Required empty public constructor
@@ -57,7 +59,6 @@ public class PlayerFragment extends Fragment {
         super.onCreate(savedInstanceState);
         musicPlayer=new MusicPlayer(getActivity());
         assetManager=getActivity().getAssets();
-
     }
 
     @Override
@@ -74,14 +75,18 @@ public class PlayerFragment extends Fragment {
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         musicAdaptor=new MusicAdaptor(musicPlayer.getMusicList());
         mRecyclerView.setAdapter(musicAdaptor);
-        btnStop=view.findViewById(R.id.btn_stop);
+        btnPause=view.findViewById(R.id.btnPlay);
 
-        btnStop.setOnClickListener(new View.OnClickListener() {
+        btnPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaPlayer.release();
+                if (mediaPlayer!=null){
+                    mediaPlayer.pause();
+                    btnPause.setBackgroundResource(R.drawable.btn_play);
+                }
             }
         });
+
 
         return view;
     }
@@ -109,6 +114,7 @@ public class PlayerFragment extends Fragment {
                                 mediaPlayer.prepare();
                                 mediaPlayer.start();
                                 afd.close();
+                                btnPause.setBackgroundResource(R.drawable.btn_pause);
                             }
 
                         }catch (IllegalArgumentException e) {
