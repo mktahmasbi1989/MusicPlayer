@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import com.example.mohamdkazem.musicplayer.model.Album;
 import com.example.mohamdkazem.musicplayer.model.Artist;
 import com.example.mohamdkazem.musicplayer.model.Music;
 
@@ -16,8 +17,11 @@ public class MusicPlayer {
 
     private List<Music> musicList = new ArrayList<>();
     private List<Artist> artistList=new ArrayList<>();
+    private List<Album> albumList=new ArrayList<>();
 
-
+    public List<Album> getAlbumList() {
+        return albumList;
+    }
     public List<Music> getMusicList() {
         return musicList;
     }
@@ -43,21 +47,25 @@ public class MusicPlayer {
             int musicId = songCursor.getColumnIndex(MediaStore.Audio.Media._ID);
             int musicTitle = songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
             int musicAlbum = songCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM);
-            int musicArtist = songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
             int musicData = songCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
             int artistId=songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST_ID);
             int artistName=songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
+            int albumId=songCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID);
 
             do {
                 long currentId = songCursor.getLong(musicId);
                 String currentTitle = songCursor.getString(musicTitle);
-                String artist = songCursor.getString(musicArtist);
+                String artist = songCursor.getString(artistName);
                 String album = songCursor.getString(musicAlbum);
                 String url=songCursor.getString(musicData);
                 long artisId=songCursor.getLong(artistId);
                 String artName=songCursor.getString(artistName);
+                String albumName=songCursor.getString(musicAlbum);
+                Long albumid=songCursor.getLong(albumId);
+
+                albumList.add(new Album(albumName,albumid,artName));
                 artistList.add(new Artist(artName,artisId));
-                musicList.add(new Music(currentId, currentTitle, artist, album, url));
+                musicList.add(new Music(currentId, currentTitle, artist, album, url,artisId));
             } while (songCursor.moveToNext());
         }
     }

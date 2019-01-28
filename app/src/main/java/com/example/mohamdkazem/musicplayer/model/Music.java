@@ -8,18 +8,34 @@ public class Music {
     private String artistName;
     private String album;
     private String uri;
+    private Long artistId;
+    private Long albumId;
 
 
-    public Music(Long musicId, String title, String artistName, String album,String uri) {
+    public Music(Long musicId, String title, String artistName, String album, String uri,Long artisId) {
         this.musicId = musicId;
         this.title = title;
         this.artistName = artistName;
         this.album = album;
         this.uri=uri;
+        this.artistId=artisId;
+
     }
 
+    public Long getAlbumId() {
+        return albumId;
+    }
+    public void setAlbumId(Long albumId) {
+        this.albumId = albumId;
+    }
     public Long getMusicId() {
         return musicId;
+    }
+    public Long getArtistId() {
+        return artistId;
+    }
+    public void setArtistId(Long artistId) {
+        this.artistId = artistId;
     }
     public void setMusicId(Long musicId) {
         this.musicId = musicId;
