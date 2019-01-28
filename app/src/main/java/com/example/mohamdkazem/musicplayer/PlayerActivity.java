@@ -6,11 +6,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
 
-public class PlayerActivity extends SingleFragmentActivity {
+public class PlayerActivity extends SingleFragmentActivity implements ArtistFragment.OnFragmentInteractionListener {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -33,6 +34,10 @@ public class PlayerActivity extends SingleFragmentActivity {
             @NonNull
             @Override
             public Fragment getItem(int position) {
+                if (position==1){
+                    return ArtistFragment.newInstance();
+
+                }else
                     return PlayerFragment.newInstance();
 
             }
@@ -48,5 +53,10 @@ public class PlayerActivity extends SingleFragmentActivity {
                 return tabTitles[position];
             }
         });
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
