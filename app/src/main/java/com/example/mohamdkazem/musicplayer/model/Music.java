@@ -1,25 +1,27 @@
 package com.example.mohamdkazem.musicplayer.model;
 
+
 public class Music {
 
-    private Integer musicId;
+    private Long musicId;
     private String title;
     private String artistName;
-    private String mAssetPath;
     private String album;
+    private String uri;
 
-    public Music(String mAssetPath) {
-        this.mAssetPath = mAssetPath;
-        String[] splits = mAssetPath.split("/");
-        String fileName = splits[splits.length - 1];
-        title = fileName.substring(0, fileName.lastIndexOf("."));
 
+    public Music(Long musicId, String title, String artistName, String album,String uri) {
+        this.musicId = musicId;
+        this.title = title;
+        this.artistName = artistName;
+        this.album = album;
+        this.uri=uri;
     }
 
-    public Integer getMusicId() {
+    public Long getMusicId() {
         return musicId;
     }
-    public void setMusicId(Integer musicId) {
+    public void setMusicId(Long musicId) {
         this.musicId = musicId;
     }
     public String getTitle() {
@@ -34,11 +36,11 @@ public class Music {
     public void setArtistName(String artistName) {
         this.artistName = artistName;
     }
-    public String getmAssetPath() {
-        return mAssetPath;
+    public String getUri() {
+        return uri;
     }
-    public void setmAssetPath(String mAssetPath) {
-        this.mAssetPath = mAssetPath;
+    public void setUri(String uri) {
+        this.uri = uri;
     }
     public String getAlbum() {
         return album;

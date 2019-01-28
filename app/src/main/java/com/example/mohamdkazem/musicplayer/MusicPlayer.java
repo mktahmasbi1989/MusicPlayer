@@ -1,89 +1,53 @@
 package com.example.mohamdkazem.musicplayer;
 
+import android.content.ContentResolver;
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
-import android.content.res.AssetManager;
-import android.media.AudioAttributes;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.SoundPool;
-import android.os.Build;
+import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
+
 import com.example.mohamdkazem.musicplayer.model.Music;
-import java.io.File;
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MusicPlayer {
 
-    private static final String MUSIC_FOLDER = "chaartaar";
-    private static final String TAG = "musicPlayer";
-    private static final int MAX_STREAM = 5;
-    private List<Music> musicList=new ArrayList<>();
-    private AssetManager mAssetManeger;
-    private SoundPool mSoundPool;
-    private MediaPlayer mediaPlayer;
-    private MediaStore mediaStore;
+    private List<Music> musicList = new ArrayList<>();
     private Context mContext;
 
+
+    public MusicPlayer(Context context) {
+        mContext = context;
+        loadMusic();
+    }
 
     public List<Music> getMusicList() {
         return musicList;
     }
 
-    public MusicPlayer(Context context) {
-        mContext=context;
-        mAssetManeger=context.getAssets();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            AudioAttributes attributes = new AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_GAME)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .build();
-
-            mSoundPool = new SoundPool.Builder()
-                    .setAudioAttributes(attributes)
-                    .build();
-            loadMusic();
-        }else {
-
-            mSoundPool = new SoundPool(MAX_STREAM, AudioManager.STREAM_MUSIC, 0);
-            loadMusic();
-
-
-        }
-    }
-
-
     private void loadMusic() {
-        mediaPlayer=new MediaPlayer();
-        try {
-            String[] fileNames =  mAssetManeger.list(MUSIC_FOLDER);
-            for (String fileName : fileNames) {
-                String assetPath = MUSIC_FOLDER + File.separator + fileName;
-                Music music = new Music(assetPath);
-                musicList.add(music);
+        ContentResolver contentResolver = mContext.getContentResolver();
+        Uri songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        Cursor songCursor = contentResolver.query(songUri, null, null, null, null);
 
-                AssetFileDescriptor afd = mAssetManeger.openFd(music.getmAssetPath());
-                int soundId = mSoundPool.load(afd, 1);
-                music.setMusicId(soundId);
-            }
-        } catch (IOException e) {
-            Log.e(TAG, "file cannot be loaded", e);
+        if (songCursor != null && songCursor.moveToFirst()) {
+            int musicId = songCursor.getColumnIndex(MediaStore.Audio.Media._ID);
+            int musicTitle = songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
+            int musicAlbum = songCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM);
+            int musicArtist = songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
+            int musicData = songCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
+
+
+            do {
+                long currentId = songCursor.getLong(musicId);
+                String currentTitle = songCursor.getString(musicTitle);
+                String artist = songCursor.getString(musicArtist);
+                String album = songCursor.getString(musicAlbum);
+                String url=songCursor.getString(musicData);
+                musicList.add(new Music(currentId, currentTitle, artist, album, url));
+            } while (songCursor.moveToNext());
         }
     }
-    public void play(Music music, float rate) {
-        if (music.getMusicId() == null)
-            return;
 
-        mSoundPool.play(music.getMusicId(),1.0f, 1.0f, 1, 0, rate);
-    }
-
-    public void release() {
-        mSoundPool.release();
-
-
-    }
 }

@@ -16,11 +16,11 @@
             android:layout_below="@+id/player_header_bg"
             android:orientation="horizontal"
             >
+
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="450dp"
                 android:id="@+id/beat_box_recycler_view"
-                >
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             </androidx.recyclerview.widget.RecyclerView>
 
