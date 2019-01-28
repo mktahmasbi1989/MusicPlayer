@@ -33,7 +33,7 @@ public class PlayerFragment extends Fragment {
     private MusicPlayer musicPlayer;
     private MusicAdaptor musicAdaptor;
     private MediaPlayer mediaPlayer ;
-    private ImageButton btnStop, btnPause;
+    private ImageButton btnPause;
     private int duration;
     private TextView textTotalDurataion, textDuration;
     private SeekBar mSeekBar;
@@ -65,12 +65,12 @@ public class PlayerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         musicPlayer = new MusicPlayer(getActivity());
-
+        mediaPlayer=new MediaPlayer();
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_player, container, false);
         mSeekBar = view.findViewById(R.id.songProgressBar);
@@ -79,7 +79,7 @@ public class PlayerFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.beat_box_recycler_view);
         textDuration = view.findViewById(R.id.songCurentDurationLabel);
 
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         musicAdaptor = new MusicAdaptor(musicPlayer.getMusicList());
         mRecyclerView.setAdapter(musicAdaptor);
 
@@ -87,8 +87,12 @@ public class PlayerFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (mediaPlayer != null) {
-                    mediaPlayer.pause();
-                    btnPause.setBackgroundResource(R.drawable.btn_play);
+                    if (mediaPlayer.isPlaying()) {
+                        mediaPlayer.pause();
+                        btnPause.setBackgroundResource(R.drawable.btn_pause);
+                    }else
+                        mediaPlayer.start();
+                        btnPause.setBackgroundResource(R.drawable.btn_play);
                 }
             }
         });
@@ -132,7 +136,6 @@ public class PlayerFragment extends Fragment {
                         mediaPlayer.setDataSource(getActivity(), Uri.parse(mMusic.getUri()));
                         mediaPlayer.prepare();
                         mediaPlayer.start();
-                        Toast.makeText(getContext(),mMusic.getUri(),Toast.LENGTH_LONG).show();
 
                         btnPause.setBackgroundResource(R.drawable.btn_pause);
                         setTotalDuration();

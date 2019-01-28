@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import com.example.mohamdkazem.musicplayer.model.Artist;
 import com.example.mohamdkazem.musicplayer.model.Music;
 
 import java.util.ArrayList;
@@ -14,6 +15,16 @@ import java.util.List;
 public class MusicPlayer {
 
     private List<Music> musicList = new ArrayList<>();
+    private List<Artist> artistList=new ArrayList<>();
+
+
+    public List<Music> getMusicList() {
+        return musicList;
+    }
+    public List<Artist> getArtistList() {
+        return artistList;
+    }
+
     private Context mContext;
 
 
@@ -22,9 +33,6 @@ public class MusicPlayer {
         loadMusic();
     }
 
-    public List<Music> getMusicList() {
-        return musicList;
-    }
 
     private void loadMusic() {
         ContentResolver contentResolver = mContext.getContentResolver();
@@ -37,7 +45,8 @@ public class MusicPlayer {
             int musicAlbum = songCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM);
             int musicArtist = songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
             int musicData = songCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
-
+            int artistId=songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST_ID);
+            int artistName=songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
 
             do {
                 long currentId = songCursor.getLong(musicId);
@@ -45,6 +54,9 @@ public class MusicPlayer {
                 String artist = songCursor.getString(musicArtist);
                 String album = songCursor.getString(musicAlbum);
                 String url=songCursor.getString(musicData);
+                long artisId=songCursor.getLong(artistId);
+                String artName=songCursor.getString(artistName);
+                artistList.add(new Artist(artName,artisId));
                 musicList.add(new Music(currentId, currentTitle, artist, album, url));
             } while (songCursor.moveToNext());
         }
