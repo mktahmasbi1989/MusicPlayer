@@ -11,7 +11,7 @@ import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
 
-public class PlayerActivity extends SingleFragmentActivity implements ArtistFragment.OnFragmentInteractionListener {
+public class PlayerActivity extends SingleFragmentActivity implements ArtistFragment.OnFragmentInteractionListener ,AlbumFragment.OnFragmentInteractionListener{
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -37,7 +37,10 @@ public class PlayerActivity extends SingleFragmentActivity implements ArtistFrag
                 if (position==1){
                     return ArtistFragment.newInstance();
 
-                }else
+                }if (position==2){
+                    return AlbumFragment.newInstance();
+                }
+                else
                     return PlayerFragment.newInstance();
 
             }
@@ -54,6 +57,7 @@ public class PlayerActivity extends SingleFragmentActivity implements ArtistFrag
             }
         });
     }
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {
