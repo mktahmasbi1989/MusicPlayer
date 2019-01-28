@@ -1,6 +1,5 @@
 package com.example.mohamdkazem.musicplayer;
 
-import android.content.res.AssetManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -13,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mohamdkazem.musicplayer.model.Music;
 
@@ -118,12 +116,12 @@ public class PlayerFragment extends Fragment {
         textDuration.setText(currTime);
     }
 
-    private class MusicdHolder extends RecyclerView.ViewHolder {
+    private class MusicHolder extends RecyclerView.ViewHolder {
 
         private Button mButton;
         private Music mMusic;
 
-        public MusicdHolder(@NonNull final View itemView) {
+        public MusicHolder(@NonNull final View itemView) {
             super(itemView);
             mButton = itemView.findViewById(R.id.list_item_sound_button);
 
@@ -180,7 +178,7 @@ public class PlayerFragment extends Fragment {
         }
     }
 
-    private class MusicAdaptor extends RecyclerView.Adapter<MusicdHolder> {
+    private class MusicAdaptor extends RecyclerView.Adapter<MusicHolder> {
 
         private List<Music> musicList;
 
@@ -194,13 +192,13 @@ public class PlayerFragment extends Fragment {
 
         @NonNull
         @Override
-        public MusicdHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        public MusicHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_sound, viewGroup, false);
-            return new MusicdHolder(view);
+            return new MusicHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MusicdHolder musicdHolder, int i) {
+        public void onBindViewHolder(@NonNull MusicHolder musicdHolder, int i) {
             Music music = musicList.get(i);
             musicdHolder.bindMusic(music);
         }
