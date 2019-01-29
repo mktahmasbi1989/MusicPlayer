@@ -41,7 +41,7 @@ public class MusicPlayer {
     private void loadMusic() {
         ContentResolver contentResolver = mContext.getContentResolver();
         Uri songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        Cursor songCursor = contentResolver.query(songUri, null, null, null, null);
+        Cursor songCursor = contentResolver.query(songUri, null, MediaStore.Audio.Media.IS_MUSIC, null, null);
 
         if (songCursor != null && songCursor.moveToFirst()) {
             int musicId = songCursor.getColumnIndex(MediaStore.Audio.Media._ID);
