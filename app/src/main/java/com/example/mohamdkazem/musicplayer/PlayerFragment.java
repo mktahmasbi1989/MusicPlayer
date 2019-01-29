@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -20,6 +19,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -118,12 +119,14 @@ public class PlayerFragment extends Fragment {
 
     private class MusicHolder extends RecyclerView.ViewHolder {
 
-        private Button mButton;
+        private ConstraintLayout constraintLayout;
         private Music mMusic;
+        private TextView textView;
 
         public MusicHolder(@NonNull final View itemView) {
             super(itemView);
-            mButton = itemView.findViewById(R.id.list_item_sound_button);
+            constraintLayout = itemView.findViewById(R.id.holder);
+            textView=itemView.findViewById(R.id.textView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -174,7 +177,7 @@ public class PlayerFragment extends Fragment {
 
         public void bindMusic(Music music) {
             mMusic = music;
-            mButton.setText(music.getTitle());
+            textView.setText(music.getTitle());
         }
     }
 
@@ -193,7 +196,7 @@ public class PlayerFragment extends Fragment {
         @NonNull
         @Override
         public MusicHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_sound, viewGroup, false);
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.music_holder, viewGroup, false);
             return new MusicHolder(view);
         }
 
