@@ -42,21 +42,16 @@
         android:background="@color/colorPrimary"
         app:layout_anchor="@id/viewPager"
         app:layout_anchorGravity="bottom"
+        app:layout_behavior="@string/bottom_sheet_behavior"
 
         >
-        <androidx.appcompat.widget.ContentFrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/music_container"
-            >
-           <com.google.android.material.button.MaterialButton
-               android:layout_width="70dp"
-               android:layout_height="70dp"
-               android:id="@+id/activity_play_control"
-               android:backgroundTint="#ff11"
-               />
-        </androidx.appcompat.widget.ContentFrameLayout>
 
+        <ImageButton
+            android:id="@+id/activity_play_control"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            tools:src="@drawable/btn_play"
+            />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

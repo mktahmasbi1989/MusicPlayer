@@ -16,15 +16,17 @@ import java.util.List;
 public class MusicPlayer {
 
     private List<Music> musicList = new ArrayList<>();
-    private List<Artist> artistList=new ArrayList<>();
-    private List<Album> albumList=new ArrayList<>();
+    private List<Artist> artistList = new ArrayList<>();
+    private List<Album> albumList = new ArrayList<>();
 
     public List<Album> getAlbumList() {
         return albumList;
     }
+
     public List<Music> getMusicList() {
         return musicList;
     }
+
     public List<Artist> getArtistList() {
         return artistList;
     }
@@ -35,17 +37,39 @@ public class MusicPlayer {
     public MusicPlayer(Context context) {
         mContext = context;
         loadMusic();
+        getArtistsList();
     }
-    public Music getMusic(Long musicId){
+
+    public Music getMusic(Long musicId) {
         Music music;
-        for (int i = 0; i <musicList.size() ; i++) {
-            if (musicList.get(i).getMusicId().equals(musicId)){
-                music=musicList.get(i);
+        for (int i = 0; i < musicList.size(); i++) {
+            if (musicList.get(i).getMusicId().equals(musicId)) {
+                music = musicList.get(i);
                 return music;
             }
         }
         return null;
     }
+
+    private void getArtistsList() {
+        ContentResolver contentResolver = mContext.getContentResolver();
+        Uri songUri = MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI;
+        Cursor songCursor = contentResolver.query(songUri, null,null, null, null);
+
+
+        if (songCursor != null && songCursor.moveToFirst()) {
+            int artistId = songCursor.getColumnIndex(MediaStore.Audio.Artists.ARTIST_KEY);
+            int artistName = songCursor.getColumnIndex(MediaStore.Audio.Artists.ARTIST);
+
+            do {
+                long artisId = songCursor.getLong(artistId);
+                String artName = songCursor.getString(artistName);
+                artistList.add(new Artist(artName, artisId));
+
+            } while (songCursor.moveToNext());
+        }
+    }
+
 
 
     private void loadMusic() {
@@ -70,13 +94,14 @@ public class MusicPlayer {
                 String album = songCursor.getString(musicAlbum);
                 String url=songCursor.getString(musicData);
                 long artisId=songCursor.getLong(artistId);
+
                 String artName=songCursor.getString(artistName);
                 String albumName=songCursor.getString(musicAlbum);
                 Long albumid=songCursor.getLong(albumId);
                 String musicArt=getMusicArtPath(albumid);
 
-                albumList.add(new Album(albumName,albumid,artName));
-                artistList.add(new Artist(artName,artisId));
+
+                albumList.add(new Album(albumName, albumid, artName));
                 musicList.add(new Music(currentId, currentTitle, artist, album, url,artisId,musicArt));
             } while (songCursor.moveToNext());
         }

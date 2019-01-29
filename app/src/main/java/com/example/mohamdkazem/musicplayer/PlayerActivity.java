@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.mohamdkazem.musicplayer.model.Music;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -26,7 +27,8 @@ public class PlayerActivity extends SingleFragmentActivity implements ArtistFrag
     private String[] tabTitles={"All","Artist","Album","Favorite"};
     private MusicPlayer musicPlayer;
     private MediaPlayer mediaPlayer;
-    private Button btnPlay;
+    private ImageButton btnPlay;
+
 
     @Override
     public Fragment createFragment() {
