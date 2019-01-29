@@ -10,18 +10,17 @@ public class Music {
     private String uri;
     private Long artistId;
     private Long albumId;
-
     private String imageUri;
 
 
-    public Music(Long musicId, String title, String artistName, String album, String uri,Long artisId ) {
+    public Music(Long musicId, String title, String artistName, String album, String uri,Long artisId,String imageArtUri ) {
         this.musicId = musicId;
         this.title = title;
         this.artistName = artistName;
         this.album = album;
         this.uri=uri;
         this.artistId=artisId;
-
+        this.imageUri=imageArtUri;
 
     }
 

@@ -181,6 +181,7 @@ public class PlayerFragment extends Fragment {
         public void bindMusic(Music music) {
             mMusic = music;
             textView.setText(music.getTitle());
+            imageView.setImageURI(Uri.parse(mMusic.getImageUri()));
         }
     }
 
