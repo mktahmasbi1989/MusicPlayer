@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         >
-
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
@@ -30,11 +29,37 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
+
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_anchor="@id/appBar"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    </androidx.viewpager.widget.ViewPager>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:id="@+id/player_controller"
+        android:background="@color/colorPrimary"
+        app:layout_anchor="@id/viewPager"
+        app:layout_anchorGravity="bottom"
 
         >
+        <androidx.appcompat.widget.ContentFrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/music_container"
+            >
+           <com.google.android.material.button.MaterialButton
+               android:layout_width="70dp"
+               android:layout_height="70dp"
+               android:id="@+id/activity_play_control"
+               android:backgroundTint="#ff11"
+               />
+        </androidx.appcompat.widget.ContentFrameLayout>
 
-    </androidx.viewpager.widget.ViewPager>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

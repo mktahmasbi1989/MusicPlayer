@@ -36,6 +36,16 @@ public class MusicPlayer {
         mContext = context;
         loadMusic();
     }
+    public Music getMusic(Long musicId){
+        Music music;
+        for (int i = 0; i <musicList.size() ; i++) {
+            if (musicList.get(i).getMusicId().equals(musicId)){
+                music=musicList.get(i);
+                return music;
+            }
+        }
+        return null;
+    }
 
 
     private void loadMusic() {

@@ -1,5 +1,6 @@
 package com.example.mohamdkazem.musicplayer;
 
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -37,8 +38,31 @@ public class PlayerFragment extends Fragment {
     private int duration;
     private TextView textTotalDurataion, textDuration;
     private SeekBar mSeekBar;
+    private CallBacks mCallBacks;
+
+
+
     private Handler mSeekbarUpdateHandler = new Handler();
 
+
+
+    public interface CallBacks{
+        void playMusic(Long musicId);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mCallBacks = (CallBacks) context;
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallBacks=null;
+
+    }
 
     private Runnable mUpdateSeekbar = new Runnable() {
         @Override
@@ -73,29 +97,29 @@ public class PlayerFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_player, container, false);
-        mSeekBar = view.findViewById(R.id.songProgressBar);
-        btnPause = view.findViewById(R.id.btnPlay);
-        textTotalDurataion = view.findViewById(R.id.songTotalDurationLabel);
+//        mSeekBar = view.findViewById(R.id.songProgressBar);
+//        btnPause = view.findViewById(R.id.btnPlay);
+//        textTotalDurataion = view.findViewById(R.id.songTotalDurationLabel);
+//        textDuration = view.findViewById(R.id.songCurentDurationLabel);
         mRecyclerView = view.findViewById(R.id.beat_box_recycler_view);
-        textDuration = view.findViewById(R.id.songCurentDurationLabel);
 
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         musicAdaptor = new MusicAdaptor(musicPlayer.getMusicList());
         mRecyclerView.setAdapter(musicAdaptor);
 
-        btnPause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mediaPlayer != null) {
-                    if (mediaPlayer.isPlaying()) {
-                        mediaPlayer.pause();
-                        btnPause.setBackgroundResource(R.drawable.btn_pause);
-                    }else
-                        mediaPlayer.start();
-                        btnPause.setBackgroundResource(R.drawable.btn_play);
-                }
-            }
-        });
+//        btnPause.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (mediaPlayer != null) {
+//                    if (mediaPlayer.isPlaying()) {
+//                        mediaPlayer.pause();
+//                        btnPause.setBackgroundResource(R.drawable.btn_pause);
+//                    }else
+//                        mediaPlayer.start();
+//                        btnPause.setBackgroundResource(R.drawable.btn_play);
+//                }
+//            }
+//        });
 
         return view;
     }
@@ -135,43 +159,43 @@ public class PlayerFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     try {
-                        mediaPlayer=new MediaPlayer();
-                        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                        mediaPlayer.setDataSource(getActivity(), Uri.parse(mMusic.getUri()));
-                        mediaPlayer.prepare();
-                        mediaPlayer.start();
+                        mCallBacks.playMusic(mMusic.getMusicId());
 
-                        btnPause.setBackgroundResource(R.drawable.btn_pause);
-                        setTotalDuration();
-                        mSeekBar.setMax(mediaPlayer.getDuration());
-                        mUpdateSeekbar.run();
+//                        mediaPlayer=new MediaPlayer();
+//                        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//                        mediaPlayer.setDataSource(getActivity(), Uri.parse(mMusic.getUri()));
+//                        mediaPlayer.prepare();
+//                        mediaPlayer.start();
 
-                        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                            @Override
-                            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                                if (fromUser) {
-                                    mSeekBar.setProgress(progress);
-                                    mediaPlayer.seekTo(progress);
-                                    mUpdateSeekbar.run();
-                                }
-                            }
+//                        btnPause.setBackgroundResource(R.drawable.btn_pause);
+//                        setTotalDuration();
+//                        mSeekBar.setMax(mediaPlayer.getDuration());
+//                        mUpdateSeekbar.run();
 
-                            @Override
-                            public void onStartTrackingTouch(SeekBar seekBar) {
-
-                            }
-
-                            @Override
-                            public void onStopTrackingTouch(SeekBar seekBar) {
-
-                            }
-                        });
+//                        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//                            @Override
+//                            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                                if (fromUser) {
+//                                    mSeekBar.setProgress(progress);
+//                                    mediaPlayer.seekTo(progress);
+//                                    mUpdateSeekbar.run();
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onStartTrackingTouch(SeekBar seekBar) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onStopTrackingTouch(SeekBar seekBar) {
+//
+//                            }
+//                        });
 
                     } catch (IllegalArgumentException e) {
                         e.printStackTrace();
                     } catch (IllegalStateException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }

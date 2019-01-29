@@ -27,6 +27,7 @@ public class ArtistFragment extends Fragment {
     private MusicPlayer musicPlayer;
     private ArtistAdaptor artistAdaptor;
 
+
     public static ArtistFragment newInstance() {
 
         Bundle args = new Bundle();
