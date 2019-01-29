@@ -11,8 +11,10 @@ public class Music {
     private Long artistId;
     private Long albumId;
 
+    private String imageUri;
 
-    public Music(Long musicId, String title, String artistName, String album, String uri,Long artisId) {
+
+    public Music(Long musicId, String title, String artistName, String album, String uri,Long artisId ) {
         this.musicId = musicId;
         this.title = title;
         this.artistName = artistName;
@@ -20,8 +22,15 @@ public class Music {
         this.uri=uri;
         this.artistId=artisId;
 
+
     }
 
+    public String getImageUri() {
+        return imageUri;
+    }
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
+    }
     public Long getAlbumId() {
         return albumId;
     }

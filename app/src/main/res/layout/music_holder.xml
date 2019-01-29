@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/holder"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="60dp"
     android:background="@color/design_default_color_background"
     android:backgroundTint="@color/design_default_color_background"
     android:orientation="vertical">
@@ -13,7 +13,7 @@
         android:id="@+id/image_view"
         android:layout_width="50dp"
         android:layout_height="match_parent"
-        android:layout_margin="0dp"
+        android:layout_margin="5dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -28,9 +28,10 @@
         android:id="@+id/linearLayoutCompat"
         android:layout_width="285dp"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
 
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -47,8 +48,7 @@
             android:id="@+id/textView2"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:background="@color/design_default_color_background"
-            android:text="Detail" />
+            android:background="@color/design_default_color_background" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
