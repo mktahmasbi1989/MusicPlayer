@@ -17,6 +17,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -79,8 +80,9 @@ public class AlbumFragment extends Fragment {
                 public void onClick(View v) {
                     MusicListDialodFragment musicListDialodFragment=MusicListDialodFragment.newInstance(mAlbum.getAlbumName());
                     musicListDialodFragment.show(getFragmentManager(),SHOW_ALBUM_LIST);
-//                    String s= String.valueOf(mAlbum.getAlbumName());
-//                    Toast.makeText(getActivity(),s,Toast.LENGTH_LONG).show();
+                    String s= String.valueOf(mAlbum.getAlbumName());
+                    Toast.makeText(getActivity(),s,Toast.LENGTH_LONG).show();
+
                 }
             });
         }

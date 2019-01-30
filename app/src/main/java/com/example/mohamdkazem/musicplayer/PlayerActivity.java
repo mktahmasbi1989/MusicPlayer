@@ -22,9 +22,7 @@ import java.io.IOException;
 
 public class PlayerActivity extends SingleFragmentActivity implements ArtistFragment.OnFragmentInteractionListener ,AlbumFragment.OnFragmentInteractionListener,PlayerFragment.CallBacks{
 
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-    private String[] tabTitles={"All","Artist","Album","Favorite"};
+
     private MusicPlayer musicPlayer;
     private MediaPlayer mediaPlayer;
     private ImageButton btnPlay;
@@ -39,12 +37,11 @@ public class PlayerActivity extends SingleFragmentActivity implements ArtistFrag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
-        tabLayout=findViewById(R.id.tabLayout);
-        viewPager=findViewById(R.id.viewPager);
-        btnPlay=findViewById(R.id.activity_play_control);
-        tabLayout.setupWithViewPager(viewPager);
+
+        btnPlay = findViewById(R.id.activity_play_control);
+
         musicPlayer = new MusicPlayer(getApplicationContext());
-        mediaPlayer=new MediaPlayer();
+        mediaPlayer = new MediaPlayer();
 
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,32 +50,6 @@ public class PlayerActivity extends SingleFragmentActivity implements ArtistFrag
             }
         });
 
-        viewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
-            @NonNull
-            @Override
-            public Fragment getItem(int position) {
-                if (position==1){
-                    return ArtistFragment.newInstance();
-
-                }if (position==2){
-                    return AlbumFragment.newInstance();
-                }
-                else
-                    return PlayerFragment.newInstance();
-
-            }
-
-            @Override
-            public int getCount() {
-                return 4;
-            }
-
-            @Nullable
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return tabTitles[position];
-            }
-        });
     }
 
 

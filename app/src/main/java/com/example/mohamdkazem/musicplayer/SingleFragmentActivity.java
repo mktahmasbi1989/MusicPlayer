@@ -21,7 +21,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
         if (fragmentManager.findFragmentById(R.id.playerFragment) == null) {
             fragmentManager.beginTransaction()
-                    .add(R.id.viewPager, createFragment())
+                    .add(R.id.fragment_container, createFragment())
                     .commit();
         }
     }

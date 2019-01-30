@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#ff4a4a4a"
-        android:id="@+id/playerFragment"
-        >
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#ff4a4a4a"
+    android:id="@+id/playerFragment"
+    android:orientation="vertical">
 
         <!--<LinearLayout-->
             <!--android:id="@+id/songThumbnail"-->
@@ -15,13 +16,33 @@
             <!--android:orientation="horizontal"-->
             <!--android:paddingTop="10dp"-->
             <!--android:paddingBottom="10dp">-->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#ff11"
+        android:layout_weight="1.5">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/beat_box_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+    </com.google.android.material.tabs.TabLayout>
 
-            </androidx.recyclerview.widget.RecyclerView>
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        app:layout_anchor="@id/tabLayout"
+        app:layout_anchorGravity="bottom"
+        >
+
+
+    </androidx.viewpager.widget.ViewPager>
+
+    <!--<androidx.recyclerview.widget.RecyclerView-->
+        <!--android:id="@+id/beat_box_recycler_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+    <!--</androidx.recyclerview.widget.RecyclerView>-->
 
         <!--</LinearLayout>-->
 
@@ -165,4 +186,4 @@
     <!--</LinearLayout>-->
 
 
-    </RelativeLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

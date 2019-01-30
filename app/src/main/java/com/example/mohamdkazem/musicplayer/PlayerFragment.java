@@ -15,31 +15,39 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mohamdkazem.musicplayer.model.Artist;
 import com.example.mohamdkazem.musicplayer.model.Music;
+import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 
 public class PlayerFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private MusicPlayer musicPlayer;
-    private MusicAdaptor musicAdaptor;
     private MediaPlayer mediaPlayer ;
     private ImageButton btnPause;
     private int duration;
     private TextView textTotalDurataion, textDuration;
     private SeekBar mSeekBar;
     private CallBacks mCallBacks;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private String[] tabTitles={"All","Artist","Album","Favorite"};
 
 
 
@@ -102,11 +110,52 @@ public class PlayerFragment extends Fragment {
 //        btnPause = view.findViewById(R.id.btnPlay);
 //        textTotalDurataion = view.findViewById(R.id.songTotalDurationLabel);
 //        textDuration = view.findViewById(R.id.songCurentDurationLabel);
-        mRecyclerView = view.findViewById(R.id.beat_box_recycler_view);
 
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-        musicAdaptor = new MusicAdaptor(musicPlayer.getMusicList());
-        mRecyclerView.setAdapter(musicAdaptor);
+        tabLayout=view.findViewById(R.id.tabLayout);
+        viewPager=view.findViewById(R.id.viewPager);
+        tabLayout.setupWithViewPager(viewPager);
+
+
+        final FragmentManager fragmentManager=getFragmentManager();
+        viewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
+            @NonNull
+            @Override
+            public Fragment getItem(int position) {
+                if (position == 0) {
+
+                    return AllMusicFragment.newInstance();
+
+                }
+                if (position == 1) {
+                    return AllMusicFragment.newInstance();
+
+                }
+                if (position == 2) {
+                    return AllMusicFragment.newInstance();
+
+                }
+                if (position == 3) {
+
+                    return AllMusicFragment.newInstance();
+
+
+                }
+                return null;
+            }
+
+
+            @Override
+            public int getCount() {
+                return 4;
+            }
+
+            @Nullable
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return tabTitles[position];
+            }
+        });
+
 
 //        btnPause.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -143,26 +192,26 @@ public class PlayerFragment extends Fragment {
         textDuration.setText(currTime);
     }
 
-    private class MusicHolder extends RecyclerView.ViewHolder {
-
-        private ConstraintLayout constraintLayout;
-        private Music mMusic;
-        private TextView textView;
-        private ImageView imageView;
-
-        public MusicHolder(@NonNull final View itemView) {
-            super(itemView);
-            constraintLayout = itemView.findViewById(R.id.holder);
-            textView=itemView.findViewById(R.id.textView);
-            imageView=itemView.findViewById(R.id.image_view);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        mCallBacks.playMusic(mMusic.getMusicId());
-                        String s= String.valueOf(mMusic.getAlbumId());
-                        Toast.makeText(getActivity(),s,Toast.LENGTH_LONG).show();
+//    private class MusicHolder extends RecyclerView.ViewHolder {
+//
+//        private ConstraintLayout constraintLayout;
+//        private Music mMusic;
+//        private TextView textView;
+//        private ImageView imageView;
+//
+//        public MusicHolder(@NonNull final View itemView) {
+//            super(itemView);
+//            constraintLayout = itemView.findViewById(R.id.holder);
+//            textView=itemView.findViewById(R.id.textView);
+//            imageView=itemView.findViewById(R.id.image_view);
+//
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    try {
+//                        mCallBacks.playMusic(mMusic.getMusicId());
+//                        String s= String.valueOf(mMusic.getAlbumId());
+//                        Toast.makeText(getActivity(),s,Toast.LENGTH_LONG).show();
 
 //                        mediaPlayer=new MediaPlayer();
 //                        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -195,53 +244,53 @@ public class PlayerFragment extends Fragment {
 //
 //                            }
 //                        });
-
-                    } catch (IllegalArgumentException e) {
-                        e.printStackTrace();
-                    } catch (IllegalStateException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
-
-        public void bindMusic(Music music) {
-            mMusic = music;
-            textView.setText(music.getTitle());
-            imageView.setImageURI(Uri.parse(mMusic.getImageUri()));
-        }
-    }
-
-    private class MusicAdaptor extends RecyclerView.Adapter<MusicHolder> {
-
-        private List<Music> musicList;
-
-        MusicAdaptor(List<Music> musicList) {
-            this.musicList = musicList;
-        }
-
-        private void setMusicList(List<Music> list) {
-            musicList = list;
-        }
-
-        @NonNull
-        @Override
-        public MusicHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.music_holder, viewGroup, false);
-            return new MusicHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull MusicHolder musicdHolder, int i) {
-            Music music = musicList.get(i);
-            musicdHolder.bindMusic(music);
-        }
-
-        @Override
-        public int getItemCount() {
-            return musicList.size();
-        }
-    }
+//
+//                    } catch (IllegalArgumentException e) {
+//                        e.printStackTrace();
+//                    } catch (IllegalStateException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+//        }
+//
+//        public void bindMusic(Music music) {
+//            mMusic = music;
+//            textView.setText(music.getTitle());
+//            imageView.setImageURI(Uri.parse(mMusic.getImageUri()));
+//        }
+//    }
+//
+//    private class MusicAdaptor extends RecyclerView.Adapter<MusicHolder> {
+//
+//        private List<Music> musicList;
+//
+//        MusicAdaptor(List<Music> musicList) {
+//            this.musicList = musicList;
+//        }
+//
+//        private void setMusicList(List<Music> list) {
+//            musicList = list;
+//        }
+//
+//        @NonNull
+//        @Override
+//        public MusicHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+//            View view = LayoutInflater.from(getActivity()).inflate(R.layout.music_holder, viewGroup, false);
+//            return new MusicHolder(view);
+//        }
+//
+//        @Override
+//        public void onBindViewHolder(@NonNull MusicHolder musicdHolder, int i) {
+//            Music music = musicList.get(i);
+//            musicdHolder.bindMusic(music);
+//        }
+//
+//        @Override
+//        public int getItemCount() {
+//            return musicList.size();
+//        }
+//    }
 
 }
 
