@@ -1,9 +1,5 @@
 package com.example.mohamdkazem.musicplayer.model;
 
-import java.util.List;
-
-import androidx.annotation.Nullable;
-
 public class Album {
     private String albumName;
     private Long albumId;
@@ -20,7 +16,6 @@ public class Album {
         this.albumArt = albumArtistName;
         this.albumArtist=albumArtist;
     }
-
 
 
 
@@ -61,8 +56,5 @@ public class Album {
         this.albumArt = albumArtistName;
     }
 
-    @Override
-    public boolean equals(@Nullable Object obj) {
-        return super.equals(obj);
-    }
+
 }

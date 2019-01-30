@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mohamdkazem.musicplayer.model.Music;
 
@@ -160,6 +161,8 @@ public class PlayerFragment extends Fragment {
                 public void onClick(View v) {
                     try {
                         mCallBacks.playMusic(mMusic.getMusicId());
+                        String s= String.valueOf(mMusic.getAlbumId());
+                        Toast.makeText(getActivity(),s,Toast.LENGTH_LONG).show();
 
 //                        mediaPlayer=new MediaPlayer();
 //                        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);

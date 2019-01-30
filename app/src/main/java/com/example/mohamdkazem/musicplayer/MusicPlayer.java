@@ -40,7 +40,15 @@ public class MusicPlayer {
         getArtistsList();
         getAlbums();
     }
-
+    public List<Music> getalbumMusicList(String aubumName){
+        List<Music> musicAlbumList=new ArrayList<>();
+        for (int i = 0; i <musicList.size() ; i++) {
+            if (musicList.get(i).getAlbum().equals(aubumName)){
+                musicAlbumList.add(musicList.get(i));
+            }
+        }
+        return musicAlbumList;
+    }
     public Music getMusic(Long musicId) {
         Music music;
         for (int i = 0; i < musicList.size(); i++) {

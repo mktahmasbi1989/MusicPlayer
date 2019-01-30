@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.mohamdkazem.musicplayer.model.Album;
 import com.example.mohamdkazem.musicplayer.model.Artist;
@@ -28,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class AlbumFragment extends Fragment {
 
+    private static final String SHOW_ALBUM_LIST = "show_album_list";
     private OnFragmentInteractionListener mListener;
     private RecyclerView recyclerView;
     private AlbumAdaptor albumAdaptor;
@@ -72,7 +74,15 @@ public class AlbumFragment extends Fragment {
         public AlbumHolder(@NonNull View itemView) {
             super(itemView);
             button = itemView.findViewById(R.id.list_item_sound_button);
-
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MusicListDialodFragment musicListDialodFragment=MusicListDialodFragment.newInstance(mAlbum.getAlbumName());
+                    musicListDialodFragment.show(getFragmentManager(),SHOW_ALBUM_LIST);
+//                    String s= String.valueOf(mAlbum.getAlbumName());
+//                    Toast.makeText(getActivity(),s,Toast.LENGTH_LONG).show();
+                }
+            });
         }
 
         public void bindAlbum(Album album) {
@@ -98,6 +108,7 @@ public class AlbumFragment extends Fragment {
         public AlbumHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_sound, parent, false);
             return new AlbumHolder(view);
+
         }
 
         @Override
@@ -111,7 +122,6 @@ public class AlbumFragment extends Fragment {
             return albumList.size();
         }
     }
-
 
 
     public void onButtonPressed(Uri uri) {
