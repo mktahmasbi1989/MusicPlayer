@@ -3,11 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AlbumFragment">
+    tools:context=".AlbumFragment"
+    android:layout_gravity="center"
+    >
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recycle_view_albums"
+        android:layout_gravity="center"
         >
 
     </androidx.recyclerview.widget.RecyclerView>

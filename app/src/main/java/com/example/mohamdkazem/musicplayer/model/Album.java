@@ -8,15 +8,13 @@ public class Album {
     private String artistId;
 
 
-
-
-    public Album(String albumName, Long albumId, String albumArtistName,String albumArtist) {
+    public Album(String albumName, Long albumId, String albumArt,String albumArtist) {
         this.albumName = albumName;
         this.albumId = albumId;
-        this.albumArt = albumArtistName;
+        this.albumArt = albumArt;
         this.albumArtist=albumArtist;
-    }
 
+    }
 
 
     String getArtistId() {

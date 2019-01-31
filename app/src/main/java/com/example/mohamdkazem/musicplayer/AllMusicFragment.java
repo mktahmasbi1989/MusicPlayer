@@ -1,6 +1,7 @@
 package com.example.mohamdkazem.musicplayer;
 
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,8 +38,24 @@ public class AllMusicFragment extends Fragment {
     private int duration;
     private TextView textTotalDurataion, textDuration;
     private SeekBar mSeekBar;
-    private PlayerFragment.CallBacks mCallBacks;
+    private CallBacks mCallBacks;
     private AllMusicAdaptor allMusicAdaptor;
+
+    public interface CallBacks{
+        void playMusic(Long musicId);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallBacks=null;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mCallBacks = (CallBacks) context;
+    }
 
     public static AllMusicFragment newInstance() {
 
@@ -91,8 +108,6 @@ public class AllMusicFragment extends Fragment {
                 public void onClick(View v) {
                     try {
                         mCallBacks.playMusic(mMusic.getMusicId());
-                        String s= String.valueOf(mMusic.getAlbumId());
-                        Toast.makeText(getActivity(),s,Toast.LENGTH_LONG).show();
 
 //                        mediaPlayer=new MediaPlayer();
 //                        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);

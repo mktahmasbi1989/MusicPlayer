@@ -2,7 +2,9 @@ package com.example.mohamdkazem.musicplayer;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -20,12 +22,13 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
 
-public class PlayerActivity extends SingleFragmentActivity implements ArtistFragment.OnFragmentInteractionListener ,AlbumFragment.OnFragmentInteractionListener,PlayerFragment.CallBacks{
+public class PlayerActivity extends SingleFragmentActivity implements AllMusicFragment.CallBacks {
 
 
     private MusicPlayer musicPlayer;
     private MediaPlayer mediaPlayer;
     private ImageButton btnPlay;
+    private ConstraintLayout constraintLayout;
 
 
     @Override
@@ -38,10 +41,18 @@ public class PlayerActivity extends SingleFragmentActivity implements ArtistFrag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
 
-        btnPlay = findViewById(R.id.activity_play_control);
-
+        btnPlay = findViewById(R.id.btn_play);
+        constraintLayout=findViewById(R.id.player_controller);
         musicPlayer = new MusicPlayer(getApplicationContext());
         mediaPlayer = new MediaPlayer();
+//
+//        constraintLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FragmentManager fragmentManager=getSupportFragmentManager();
+//                fragmentManager.beginTransaction().add(R.id.activity_player,PlayerControlFragment.newInstance(),"control").commit();
+//            }
+//        });
 
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,15 +63,8 @@ public class PlayerActivity extends SingleFragmentActivity implements ArtistFrag
 
     }
 
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
     @Override
     public void playMusic(Long musicId) {
-
         try {
             mediaPlayer=new MediaPlayer();
             Music music=musicPlayer.getMusic(musicId);
@@ -72,4 +76,6 @@ public class PlayerActivity extends SingleFragmentActivity implements ArtistFrag
             e.printStackTrace();
         }
     }
+
+
 }

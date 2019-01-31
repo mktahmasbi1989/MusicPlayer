@@ -3,6 +3,7 @@ package com.example.mohamdkazem.musicplayer;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.provider.MediaStore;
 
@@ -70,12 +71,20 @@ public class MusicPlayer {
             int artist_Key = songCursor.getColumnIndex(MediaStore.Audio.Artists.ARTIST_KEY);
             int artist_Name = songCursor.getColumnIndex(MediaStore.Audio.Artists.ARTIST);
             int artist_Id = songCursor.getColumnIndex(MediaStore.Audio.Artists._ID);
+            int artist_Number_of_Albums = songCursor.getColumnIndex(MediaStore.Audio.Artists.NUMBER_OF_ALBUMS);
+            int artist_Number_of_trakss = songCursor.getColumnIndex(MediaStore.Audio.Artists.NUMBER_OF_TRACKS);
+
 
             do {
                 long artistId = songCursor.getLong(artist_Id);
                 String artName = songCursor.getString(artist_Name);
                 String artistKey=songCursor.getString(artist_Key);
-                artistList.add(new Artist(artName, artistId,artistKey));
+                String artTraks=songCursor.getString(artist_Number_of_trakss);
+                String artAlbums=songCursor.getString(artist_Number_of_Albums);
+
+                String ArtistArt = getArtistArt(artName);
+
+                artistList.add(new Artist(artName, artistId,artistKey,artTraks,artAlbums,ArtistArt));
 
             } while (songCursor.moveToNext());
         }
@@ -139,6 +148,20 @@ public class MusicPlayer {
         Cursor cursor=mContext.getContentResolver().query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
                 new String[]{MediaStore.Audio.Albums._ID, MediaStore.Audio.Albums.ALBUM_ART},
                 MediaStore.Audio.Albums._ID + "=" + albumId, null, null);
+        if(cursor != null && cursor.moveToFirst()){
+            String imagePath= cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART));
+            return imagePath;
+        }
+
+        return null;
+    }
+
+    public String getArtistArt(String artistName){
+        Cursor cursor=mContext.getContentResolver().query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
+                new String[] {MediaStore.Audio.Albums.ARTIST, MediaStore.Audio.Albums.ALBUM_ART},
+                MediaStore.Audio.Albums.ARTIST+ "=?",
+                new String[] {String.valueOf(artistName)},
+                null);
         if(cursor != null && cursor.moveToFirst()){
             String imagePath= cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART));
             return imagePath;

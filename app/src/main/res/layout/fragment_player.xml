@@ -3,25 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#ff4a4a4a"
     android:id="@+id/playerFragment"
     android:orientation="vertical">
 
-        <!--<LinearLayout-->
-            <!--android:id="@+id/songThumbnail"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_below="@+id/player_header_bg"-->
-            <!--android:gravity="center"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingTop="10dp"-->
-            <!--android:paddingBottom="10dp">-->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#ff11"
-        android:layout_weight="1.5">
+        android:layout_weight="0.7">
 
     </com.google.android.material.tabs.TabLayout>
 
@@ -34,156 +23,7 @@
         app:layout_anchorGravity="bottom"
         >
 
-
     </androidx.viewpager.widget.ViewPager>
-
-    <!--<androidx.recyclerview.widget.RecyclerView-->
-        <!--android:id="@+id/beat_box_recycler_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-
-    <!--</androidx.recyclerview.widget.RecyclerView>-->
-
-        <!--</LinearLayout>-->
-
-
-    <!--<LinearLayout-->
-        <!--android:id="@+id/player_footer_bg"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="100dp"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:background="@drawable/bg_player_footer"-->
-        <!--android:gravity="center"-->
-        <!--android:orientation="horizontal"-->
-
-        <!--&gt;-->
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@drawable/rounded_corner"-->
-            <!--android:gravity="center_vertical"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingLeft="10dp"-->
-            <!--android:paddingRight="10dp">-->
-
-
-            <!--<ImageButton-->
-                <!--android:id="@+id/btnPrevious"-->
-                <!--android:layout_width="50dp"-->
-                <!--android:layout_height="50dp"-->
-                <!--android:background="@drawable/img_btn_previous" />-->
-
-            <!--<ImageButton-->
-                <!--android:id="@+id/btnBackward"-->
-                <!--android:layout_width="50dp"-->
-                <!--android:layout_height="50dp"-->
-
-                <!--android:background="@drawable/img_btn_backward" />-->
-
-
-            <!--<ImageButton-->
-
-                <!--android:id="@+id/btnPlay"-->
-                <!--android:layout_width="80dp"-->
-                <!--android:layout_height="80dp"-->
-
-                <!--android:background="@drawable/btn_play" />-->
-
-
-            <!--<ImageButton-->
-                <!--android:id="@+id/btnForward"-->
-                <!--android:layout_width="50dp"-->
-                <!--android:layout_height="50dp"-->
-
-                <!--android:background="@drawable/img_btn_forward" />-->
-
-
-            <!--<ImageButton-->
-                <!--android:id="@+id/btnNext"-->
-                <!--android:layout_width="50dp"-->
-                <!--android:layout_height="50dp"-->
-
-                <!--android:background="@drawable/img_btn_next" />-->
-
-
-        <!--</LinearLayout>-->
-
-
-    <!--</LinearLayout>-->
-
-
-        <!--<SeekBar-->
-            <!--android:id="@+id/songProgressBar"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_margin="20dp"-->
-            <!--android:layout_above="@id/player_footer_bg"-->
-            <!--android:paddingLeft="6dp"-->
-            <!--android:paddingRight="6dp"-->
-            <!--android:thumb="@drawable/seek_handler"-->
-            <!--android:progressDrawable="@drawable/seekbar_progress"-->
-
-            <!--/>-->
-
-
-
-        <!--<LinearLayout-->
-            <!--android:id="@+id/timerDisplay"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_above="@+id/songProgressBar"-->
-            <!--android:layout_marginRight="20dp"-->
-            <!--android:layout_marginLeft="20dp"-->
-            <!--android:layout_marginBottom="-20dp"-->
-
-            <!--&gt;-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/songCurentDurationLabel"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="left"-->
-                <!--android:textColor="#ffeeeeee"-->
-                <!--android:textStyle="bold"-->
-                <!--android:text="00:00"-->
-                <!--/>-->
-
-
-            <!--<TextView-->
-                <!--android:id="@+id/songTotalDurationLabel"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="right"-->
-                <!--android:textColor="#ff04cbde"-->
-                <!--android:textStyle="bold"-->
-                <!--android:text="00:00"-->
-                <!--/>-->
-
-        <!--</LinearLayout>-->
-
-
-    <!--<LinearLayout-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_above="@id/timerDisplay"-->
-        <!--android:layout_marginBottom="-20dp"-->
-        <!--android:gravity="center">-->
-
-        <!--<ImageButton-->
-            <!--android:id="@+id/btnShuffle"-->
-            <!--android:layout_width="50dp"-->
-            <!--android:layout_height="45dp"-->
-            <!--android:background="@drawable/img_btn_shuffle" />-->
-
-        <!--<ImageButton-->
-            <!--android:id="@+id/btnRepeat"-->
-            <!--android:layout_width="50dp"-->
-            <!--android:layout_height="45dp"-->
-            <!--android:background="@drawable/img_btn_repeat" />-->
-    <!--</LinearLayout>-->
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

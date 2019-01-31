@@ -1,37 +1,28 @@
 package com.example.mohamdkazem.musicplayer;
 
-import android.content.Context;
-import android.net.Uri;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.mohamdkazem.musicplayer.model.Album;
-import com.example.mohamdkazem.musicplayer.model.Artist;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AlbumFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- */
+
 public class AlbumFragment extends Fragment {
 
     private static final String SHOW_ALBUM_LIST = "show_album_list";
-    private OnFragmentInteractionListener mListener;
     private RecyclerView recyclerView;
     private AlbumAdaptor albumAdaptor;
     private MusicPlayer musicPlayer;
@@ -60,7 +51,7 @@ public class AlbumFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_album, container, false);
         recyclerView=view.findViewById(R.id.recycle_view_albums);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         albumAdaptor = new AlbumAdaptor(musicPlayer.getAlbumList());
         recyclerView.setAdapter(albumAdaptor);
 
@@ -69,27 +60,36 @@ public class AlbumFragment extends Fragment {
 
     public class AlbumHolder extends RecyclerView.ViewHolder{
 
-        private Button button;
         private Album mAlbum;
+
+        private ImageView imageView;
+        private TextView textViewAlbumName,textViewArtistName;
 
         public AlbumHolder(@NonNull View itemView) {
             super(itemView);
-            button = itemView.findViewById(R.id.list_item_sound_button);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MusicListDialodFragment musicListDialodFragment=MusicListDialodFragment.newInstance(mAlbum.getAlbumName());
-                    musicListDialodFragment.show(getFragmentManager(),SHOW_ALBUM_LIST);
-                    String s= String.valueOf(mAlbum.getAlbumName());
-                    Toast.makeText(getActivity(),s,Toast.LENGTH_LONG).show();
+            imageView=itemView.findViewById(R.id.image_view_card_artist);
+            textViewAlbumName =itemView.findViewById(R.id.textView_album_name);
+            imageView=itemView.findViewById(R.id.image_view_card_artist);
+            textViewArtistName=itemView.findViewById(R.id.textView_artistName);
+//            button = itemView.findViewById(R.id.list_item_sound_button);
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    MusicListDialodFragment musicListDialodFragment=MusicListDialodFragment.newInstance(mAlbum.getAlbumName());
+//                    musicListDialodFragment.show(getFragmentManager(),SHOW_ALBUM_LIST);
+//                    FragmentManager fragmentManager=getFragmentManager();
+//                    fragmentManager.beginTransaction().add(R.id.fragment_container,musicListDialodFragment).commit();
 
-                }
-            });
+//                }
+//            });
         }
 
         public void bindAlbum(Album album) {
             mAlbum = album;
-            button.setText(album.getAlbumName());
+            textViewAlbumName.setText(album.getAlbumName());
+            textViewArtistName.setText(album.getAlbumArtistKey());
+            imageView.setImageDrawable(Drawable.createFromPath(album.getAlbumArtistName()));
+
         }
     }
 
@@ -108,7 +108,7 @@ public class AlbumFragment extends Fragment {
         @NonNull
         @Override
         public AlbumHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_sound, parent, false);
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.albums_holder, parent, false);
             return new AlbumHolder(view);
 
         }
@@ -125,32 +125,4 @@ public class AlbumFragment extends Fragment {
         }
     }
 
-
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

@@ -1,12 +1,15 @@
 package com.example.mohamdkazem.musicplayer;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.mohamdkazem.musicplayer.model.Artist;
 import com.example.mohamdkazem.musicplayer.model.Music;
@@ -22,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ArtistFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
     private RecyclerView recyclerView;
     private MusicPlayer musicPlayer;
     private ArtistAdaptor artistAdaptor;
@@ -53,7 +55,7 @@ public class ArtistFragment extends Fragment {
 
         View view= inflater.inflate(R.layout.fragment_artist, container, false);
         recyclerView=view.findViewById(R.id.recycle_view_artists);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         artistAdaptor = new ArtistAdaptor(musicPlayer.getArtistList());
         recyclerView.setAdapter(artistAdaptor);
         return view;
@@ -61,19 +63,27 @@ public class ArtistFragment extends Fragment {
 
     public class ArtistsHolder extends RecyclerView.ViewHolder{
 
-        private Button mButton;
+
         private Artist mArtist;
+        private ImageView imageView;
+        private TextView textViewAlbumName,textViewArtistName;
+
 
         public ArtistsHolder(@NonNull View itemView) {
             super(itemView);
-            mButton = itemView.findViewById(R.id.list_item_sound_button);
+            imageView=itemView.findViewById(R.id.image_view_card_artist);
+            textViewAlbumName =itemView.findViewById(R.id.textView_album_name);
+            imageView=itemView.findViewById(R.id.image_view_card_artist);
+            textViewArtistName=itemView.findViewById(R.id.textView_artistName);
 
         }
 
 
         public void bindArtist(Artist artist) {
             mArtist = artist;
-            mButton.setText(artist.getArtistName());
+            textViewAlbumName.setText(artist.getArtistName());
+            textViewArtistName.setText(artist.getNumberOfTraks()+"  album /  " +artist.getNumberOfTraks()+" trak ");
+            imageView.setImageDrawable(Drawable.createFromPath(artist.getArtistArtPath()));
         }
     }
 
@@ -95,7 +105,7 @@ public class ArtistFragment extends Fragment {
         @NonNull
         @Override
         public ArtistsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_sound, parent, false);
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.albums_holder, parent, false);
             return new ArtistsHolder(view);
         }
 
@@ -114,31 +124,5 @@ public class ArtistFragment extends Fragment {
 
 
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

@@ -44,10 +44,10 @@ public class PlayerFragment extends Fragment {
     private int duration;
     private TextView textTotalDurataion, textDuration;
     private SeekBar mSeekBar;
-    private CallBacks mCallBacks;
+//    private CallBacks mCallBacks;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private String[] tabTitles={"All","Artist","Album","Favorite"};
+    private String[] tabTitles={"musics","Artists","Albums","Favorite"};
 
 
 
@@ -55,23 +55,23 @@ public class PlayerFragment extends Fragment {
 
 
 
-    public interface CallBacks{
-        void playMusic(Long musicId);
-    }
+//    public interface CallBacks{
+//        void playMusic(Long musicId);
+//    }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        mCallBacks = (CallBacks) context;
+//    @Override
+//    public void onAttach(@NonNull Context context) {
+//        super.onAttach(context);
+//        mCallBacks = (CallBacks) context;
+//
+//    }
 
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mCallBacks=null;
-
-    }
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//        mCallBacks=null;
+//
+//    }
 
     private Runnable mUpdateSeekbar = new Runnable() {
         @Override
@@ -116,7 +116,7 @@ public class PlayerFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
 
 
-        final FragmentManager fragmentManager=getFragmentManager();
+        final FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
         viewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
             @NonNull
             @Override
@@ -127,11 +127,11 @@ public class PlayerFragment extends Fragment {
 
                 }
                 if (position == 1) {
-                    return AllMusicFragment.newInstance();
+                    return ArtistFragment.newInstance();
 
                 }
                 if (position == 2) {
-                    return AllMusicFragment.newInstance();
+                    return AlbumFragment.newInstance();
 
                 }
                 if (position == 3) {
@@ -146,7 +146,7 @@ public class PlayerFragment extends Fragment {
 
             @Override
             public int getCount() {
-                return 4;
+                return 3;
             }
 
             @Nullable
