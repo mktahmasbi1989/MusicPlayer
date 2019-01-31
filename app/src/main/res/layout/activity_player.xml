@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_player"
@@ -9,83 +9,135 @@
     android:orientation="vertical">
 
 
-<androidx.appcompat.widget.ContentFrameLayout
+<FrameLayout
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:id="@+id/fragment_container"
     android:layout_weight="8"
     >
 
-</androidx.appcompat.widget.ContentFrameLayout>
+</FrameLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/player_controller"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2">
+        android:layout_weight="2"
+        android:background="#ff4a4a4a"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/timerDisplay"
-            android:layout_width="fill_parent"
+        <TextView
+            android:id="@+id/seek_bar_total_duration"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/songProgressBar"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="-20dp"
-
-            >
-
-            <TextView
-                android:id="@+id/songCurentDurationLabel"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="left"
-                android:textColor="#ffeeeeee"
-                android:textStyle="bold"
-                android:text="00:00"
-                />
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="00:00"
+            android:textColor="#ffeeeeee"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/seek_bar_duration"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
 
 
-            <TextView
-                android:id="@+id/songTotalDurationLabel"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:textColor="#ff04cbde"
-                android:textStyle="bold"
-                android:text="00:00"
-                />
+        <TextView
+            android:id="@+id/seek_bar_duration"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="00:00"
+            android:textColor="#ff04cbde"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/seekBar_activity"
+            app:layout_constraintEnd_toStartOf="@+id/seek_bar_total_duration"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="MissingConstraints" />
 
-        </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatSeekBar
+        <SeekBar
+            android:id="@+id/seekBar_activity"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/btn_play"
+            app:layout_constraintBottom_toTopOf="@+id/btn_play_control"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:progressDrawable="@drawable/seekbar_progress"
+            android:thumbTint="#ffff"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
 
         <ImageButton
+            android:id="@+id/btnPrevious"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/img_btn_previous"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_play_control"
+            app:layout_constraintHorizontal_bias="0.811"
+            app:layout_constraintStart_toStartOf="parent" />
 
-            android:id="@+id/btn_play"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+        <ImageButton
+            android:id="@+id/btnShuffle"
+            android:layout_width="50dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/img_btn_shuffle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnPrevious"
+            app:layout_constraintStart_toStartOf="parent" />
 
-            android:layout_marginTop="8dp"
+        <ImageButton
+            android:id="@+id/btn_play_control"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/btn_play"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="162dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
+        <ImageButton
+            android:id="@+id/btnNext"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
 
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/img_btn_next"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.188"
+            app:layout_constraintStart_toEndOf="@+id/btn_play_control" />
+
+        <ImageButton
+            android:id="@+id/btnRepeat"
+            android:layout_width="50dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/img_btn_repeat"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnNext" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.appcompat.widget.LinearLayoutCompat>
+
+    </LinearLayout>

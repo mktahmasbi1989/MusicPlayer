@@ -36,9 +36,6 @@ public class PlayerControlFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_player_control, container, false);
-        imageButton=view.findViewById(R.id.btn_play);
-
-
 
 
         return view;

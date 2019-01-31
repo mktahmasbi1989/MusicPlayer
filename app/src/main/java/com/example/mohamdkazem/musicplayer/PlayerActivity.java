@@ -1,26 +1,22 @@
 package com.example.mohamdkazem.musicplayer;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.example.mohamdkazem.musicplayer.model.Music;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import androidx.fragment.app.Fragment;
 
 public class PlayerActivity extends SingleFragmentActivity implements AllMusicFragment.CallBacks {
 
@@ -28,7 +24,38 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
     private MusicPlayer musicPlayer;
     private MediaPlayer mediaPlayer;
     private ImageButton btnPlay;
-    private ConstraintLayout constraintLayout;
+    private TextView textTotalDurataion, textDuration;
+    private SeekBar mSeekBar;
+    private int duration;
+
+    private Handler mSeekbarUpdateHandler = new Handler();
+
+    private Runnable mUpdateSeekbar = new Runnable() {
+        @Override
+        public void run() {
+            mSeekBar.setProgress(mediaPlayer.getCurrentPosition());
+            mSeekbarUpdateHandler.postDelayed(this, 50);
+            setCurrentDuration();
+        }
+    };
+
+    private void setTotalDuration() {
+        duration = mediaPlayer.getDuration();
+        String currTime = String.format("%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(duration),
+                TimeUnit.MILLISECONDS.toSeconds(duration) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration)));
+        textTotalDurataion.setText(currTime);
+    }
+
+    private void setCurrentDuration() {
+        duration = mediaPlayer.getCurrentPosition();
+        String currTime = String.format("%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(duration),
+                TimeUnit.MILLISECONDS.toSeconds(duration) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration)));
+        textDuration.setText(currTime);
+    }
 
 
     @Override
@@ -36,23 +63,22 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
         return PlayerFragment.newInstance();
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
 
-        btnPlay = findViewById(R.id.btn_play);
-        constraintLayout=findViewById(R.id.player_controller);
+        textTotalDurataion = findViewById(R.id.seek_bar_total_duration);
+        textDuration = findViewById(R.id.seek_bar_duration);
+        mSeekBar = findViewById(R.id.seekBar_activity);
+        btnPlay = findViewById(R.id.btn_play_control);
         musicPlayer = new MusicPlayer(getApplicationContext());
         mediaPlayer = new MediaPlayer();
-//
-//        constraintLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
+
 //                FragmentManager fragmentManager=getSupportFragmentManager();
 //                fragmentManager.beginTransaction().add(R.id.activity_player,PlayerControlFragment.newInstance(),"control").commit();
-//            }
-//        });
+
 
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,12 +92,40 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
     @Override
     public void playMusic(Long musicId) {
         try {
-            mediaPlayer=new MediaPlayer();
-            Music music=musicPlayer.getMusic(musicId);
+            mediaPlayer = new MediaPlayer();
+            Music music = musicPlayer.getMusic(musicId);
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(music.getUri()));
             mediaPlayer.prepare();
             mediaPlayer.start();
+
+            setTotalDuration();
+            mSeekBar.setMax(mediaPlayer.getDuration());
+            mUpdateSeekbar.run();
+            mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    if (fromUser) {
+                        mSeekBar.setProgress(progress);
+                        mediaPlayer.seekTo(progress);
+                        mUpdateSeekbar.run();
+                    }
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            });
+
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
