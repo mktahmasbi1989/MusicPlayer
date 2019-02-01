@@ -1,5 +1,6 @@
 package com.example.mohamdkazem.musicplayer;
 
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -168,6 +169,7 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
             musicIndex=musicId;
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             shuffleCheck();
+            mediaPlayer.reset();
             mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(music.getUri()));
             mediaPlayer.prepare();
             mediaPlayer.start();
@@ -195,7 +197,7 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
 
                 @Override
                 public void onStopTrackingTouch(SeekBar seekBar) {
-
+                    seekBar.getProgress();
                 }
             });
 

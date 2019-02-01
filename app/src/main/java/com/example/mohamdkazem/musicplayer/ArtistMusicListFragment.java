@@ -1,27 +1,21 @@
 package com.example.mohamdkazem.musicplayer;
 
-import android.app.Dialog;
+
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.mohamdkazem.musicplayer.model.Music;
-
-import java.util.Calendar;
 import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,14 +23,14 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MusicListDialodFragment extends DialogFragment implements AllMusicFragment.CallBacks {
+public class ArtistMusicListFragment extends Fragment implements AllMusicFragment.CallBacks {
 
-
-    private static final String ALBUM_ID = "albumId";
-    private String albumName;
+    private static final String ARTIST_NAME = "ArtistName";
+    private String artist_name;
     private RecyclerView recyclerView;
-    private MusicAdaptorDialog musicAdaptor;
+    private ArtistListAdaptor artistListAdaptor;
     private AllMusicFragment.CallBacks mCallBacks;
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -51,47 +45,37 @@ public class MusicListDialodFragment extends DialogFragment implements AllMusicF
 
 
 
-    public static MusicListDialodFragment newInstance(String albumName) {
+    public static ArtistMusicListFragment newInstance(String artistName) {
 
         Bundle args = new Bundle();
-        args.putString(ALBUM_ID, albumName);
-        MusicListDialodFragment fragment = new MusicListDialodFragment();
+        args.putString(ARTIST_NAME, artistName);
+
+        ArtistMusicListFragment fragment = new ArtistMusicListFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public MusicListDialodFragment() {
-        // Required empty public constructor
-    }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Dialog dialog = getDialog();
-        if (dialog != null) {
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        }
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        albumName = getArguments().getString(ALBUM_ID);
-
-
+        artist_name = getArguments().getString(ARTIST_NAME);
     }
+
+    public ArtistMusicListFragment() {
+        // Required empty public constructor
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_music_list_dialod, container, false);
-        recyclerView= view.findViewById(R.id.recycle_view_dialog);
+        View view= inflater.inflate(R.layout.fragment_artist_music_list, container, false);
+        recyclerView= view.findViewById(R.id.recycle_view_Artist_list);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-        musicAdaptor = new MusicAdaptorDialog(MusicLab.getInstance(getContext()).getalbumMusicList(albumName));
-        recyclerView.setAdapter(musicAdaptor);
+        artistListAdaptor = new ArtistListAdaptor(MusicLab.getInstance(getContext()).getArtistMusicList(artist_name));
+        recyclerView.setAdapter(artistListAdaptor);
+
         return view;
     }
 
@@ -100,18 +84,19 @@ public class MusicListDialodFragment extends DialogFragment implements AllMusicF
 
     }
 
-    private class MusicHolderDialog extends RecyclerView.ViewHolder {
+    private class MusicHolderArtist extends RecyclerView.ViewHolder {
         private ConstraintLayout constraintLayout;
         private TextView textView;
         private ImageView imageView;
         private Music music;
 
-        MusicHolderDialog(@NonNull View itemView) {
+        MusicHolderArtist(@NonNull View itemView) {
             super(itemView);
             constraintLayout = itemView.findViewById(R.id.holder);
             textView=itemView.findViewById(R.id.textView);
             imageView=itemView.findViewById(R.id.image_view);
             constraintLayout=itemView.findViewById(R.id.holder);
+
 
         }
         void bindMusic(Music musi) {
@@ -126,28 +111,27 @@ public class MusicListDialodFragment extends DialogFragment implements AllMusicF
                             .remove(getFragmentManager()
                                     .findFragmentById(R.id.fragment_container))
                             .commit();
-
                 }
             });
         }
     }
-    public class MusicAdaptorDialog extends RecyclerView.Adapter<MusicHolderDialog>{
 
+    public class ArtistListAdaptor extends RecyclerView.Adapter<MusicHolderArtist>{
         private List<Music> musicList;
 
-        MusicAdaptorDialog(List<Music> musicList) {
+        public ArtistListAdaptor(List<Music> musicList) {
             this.musicList = musicList;
         }
 
         @NonNull
         @Override
-        public MusicHolderDialog onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public MusicHolderArtist onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.music_holder, parent, false);
-            return new MusicHolderDialog(view);
+            return new MusicHolderArtist(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MusicHolderDialog holder, int position) {
+        public void onBindViewHolder(@NonNull MusicHolderArtist holder, int position) {
             Music music = musicList.get(position);
             holder.bindMusic(music);
         }

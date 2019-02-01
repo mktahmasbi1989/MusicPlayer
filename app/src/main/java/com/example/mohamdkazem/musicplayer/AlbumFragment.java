@@ -21,11 +21,9 @@ public class AlbumFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private AlbumAdaptor albumAdaptor;
-    private MusicPlayer musicPlayer;
 
     static AlbumFragment newInstance() {
         Bundle args = new Bundle();
-
         AlbumFragment fragment = new AlbumFragment();
         fragment.setArguments(args);
         return fragment;
@@ -37,7 +35,6 @@ public class AlbumFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        musicPlayer = new MusicPlayer(getActivity());
 
     }
 
@@ -48,7 +45,7 @@ public class AlbumFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_album, container, false);
         recyclerView=view.findViewById(R.id.recycle_view_albums);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        albumAdaptor = new AlbumAdaptor(musicPlayer.getAlbumList());
+        albumAdaptor = new AlbumAdaptor(MusicLab.getInstance(getContext()).getAlbumList());
         recyclerView.setAdapter(albumAdaptor);
 
         return view;

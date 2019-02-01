@@ -3,6 +3,7 @@ package com.example.mohamdkazem.musicplayer;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -11,36 +12,45 @@ import com.example.mohamdkazem.musicplayer.model.Album;
 import com.example.mohamdkazem.musicplayer.model.Artist;
 import com.example.mohamdkazem.musicplayer.model.Music;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MusicPlayer {
+public class MusicLab {
 
-    private List<Music> musicList = new ArrayList<>();
-    private List<Artist> artistList = new ArrayList<>();
-    private List<Album> albumList = new ArrayList<>();
+    private static MusicLab ourInstance ;
+    private MediaPlayer mediaPlayer;
+    private Context mContext;
+    private List<Music> musicList=new ArrayList<>() ;
+    private List<Artist> artistList =new ArrayList<>();
+    private List<Album> albumList=new ArrayList<>() ;
+
+    public static MusicLab getInstance(Context context) {
+        if (ourInstance==null){
+            ourInstance=new MusicLab(context);
+        }
+        return ourInstance;
+    }
+
+    private MusicLab(Context context) {
+        mContext=context;
+        mediaPlayer=new MediaPlayer();
+        loadMusic();
+        getArtistsList();
+        getAlbums();
+
+    }
 
     public List<Album> getAlbumList() {
         return albumList;
     }
-
     public List<Music> getMusicList() {
         return musicList;
     }
-
     public List<Artist> getArtistList() {
         return artistList;
     }
 
-    private Context mContext;
-
-
-    public MusicPlayer(Context context) {
-        mContext = context;
-        loadMusic();
-        getArtistsList();
-        getAlbums();
-    }
     public List<Music> getalbumMusicList(String aubumName){
         List<Music> musicAlbumList=new ArrayList<>();
         for (int i = 0; i <musicList.size() ; i++) {
@@ -122,7 +132,6 @@ public class MusicPlayer {
             } while (songCursor.moveToNext());
         }
     }
-
     private void loadMusic() {
         ContentResolver contentResolver = mContext.getContentResolver();
         Uri songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
@@ -149,8 +158,8 @@ public class MusicPlayer {
 
                 musicList.add(new Music(musicId,musicTitle,artistName,albumName,url,artistId,musicArt));
 
-                }
-                 while (songCursor.moveToNext());
+            }
+            while (songCursor.moveToNext());
         }
     }
 
@@ -180,4 +189,21 @@ public class MusicPlayer {
 
         return null;
     }
+
+
+    public void PlayMusic(Long MusicId,Context context){
+
+            Music music = getMusic(MusicId);
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mediaPlayer.reset();
+            try {
+                mediaPlayer.setDataSource(context, Uri.parse(music.getUri()));
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+    }
+
 }

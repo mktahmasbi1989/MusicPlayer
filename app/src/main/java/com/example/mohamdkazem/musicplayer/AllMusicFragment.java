@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 public class AllMusicFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
-    private MusicPlayer musicPlayer;
     private CallBacks mCallBacks;
     private AllMusicAdaptor allMusicAdaptor;
 
@@ -58,7 +57,6 @@ public class AllMusicFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        musicPlayer = new MusicPlayer(getActivity());
     }
 
     @Override
@@ -70,7 +68,7 @@ public class AllMusicFragment extends Fragment {
 
         mRecyclerView = view.findViewById(R.id.recycle_view_all_music);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-        allMusicAdaptor = new AllMusicAdaptor(musicPlayer.getMusicList());
+        allMusicAdaptor = new AllMusicAdaptor(MusicLab.getInstance(getContext()).getMusicList());
         mRecyclerView.setAdapter(allMusicAdaptor);
 
         return view;
@@ -91,7 +89,8 @@ public class AllMusicFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     try {
-                        mCallBacks.playMusic(mMusic.getMusicId());
+                        MusicLab.getInstance(getActivity()).PlayMusic(mMusic.getMusicId(),getActivity());
+//                        mCallBacks.playMusic(mMusic.getMusicId());
 
                     } catch (IllegalArgumentException e) {
                         e.printStackTrace();
