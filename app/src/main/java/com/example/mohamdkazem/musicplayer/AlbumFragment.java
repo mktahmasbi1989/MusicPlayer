@@ -7,27 +7,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.mohamdkazem.musicplayer.model.Album;
-
 import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-
 public class AlbumFragment extends Fragment {
 
-    private static final String SHOW_ALBUM_LIST = "show_album_list";
     private RecyclerView recyclerView;
     private AlbumAdaptor albumAdaptor;
     private MusicPlayer musicPlayer;
 
-    public static AlbumFragment newInstance() {
+    static AlbumFragment newInstance() {
         Bundle args = new Bundle();
 
         AlbumFragment fragment = new AlbumFragment();
@@ -58,33 +54,31 @@ public class AlbumFragment extends Fragment {
         return view;
     }
 
-    public class AlbumHolder extends RecyclerView.ViewHolder{
+    class AlbumHolder extends RecyclerView.ViewHolder{
 
         private Album mAlbum;
-
         private ImageView imageView;
         private TextView textViewAlbumName,textViewArtistName;
 
-        public AlbumHolder(@NonNull View itemView) {
+
+        AlbumHolder(@NonNull View itemView) {
             super(itemView);
             imageView=itemView.findViewById(R.id.image_view_card_artist);
             textViewAlbumName =itemView.findViewById(R.id.textView_album_name);
             imageView=itemView.findViewById(R.id.image_view_card_artist);
             textViewArtistName=itemView.findViewById(R.id.textView_artistName);
-//            button = itemView.findViewById(R.id.list_item_sound_button);
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    MusicListDialodFragment musicListDialodFragment=MusicListDialodFragment.newInstance(mAlbum.getAlbumName());
-//                    musicListDialodFragment.show(getFragmentManager(),SHOW_ALBUM_LIST);
-//                    FragmentManager fragmentManager=getFragmentManager();
-//                    fragmentManager.beginTransaction().add(R.id.fragment_container,musicListDialodFragment).commit();
-
-//                }
-//            });
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .add(R.id.fragment_container,MusicListDialodFragment.newInstance(mAlbum.getAlbumName()),"album")
+                            .commit();
+                }
+            });
         }
 
-        public void bindAlbum(Album album) {
+        void bindAlbum(Album album) {
             mAlbum = album;
             textViewAlbumName.setText(album.getAlbumName());
             textViewArtistName.setText(album.getAlbumArtistKey());
@@ -96,7 +90,7 @@ public class AlbumFragment extends Fragment {
     public class AlbumAdaptor extends RecyclerView.Adapter<AlbumHolder>{
         private List<Album> albumList;
 
-        public AlbumAdaptor(List<Album> albumList) {
+        AlbumAdaptor(List<Album> albumList) {
             this.albumList = albumList;
         }
 

@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".MusicListDialodFragment"
     android:id="@+id/container_recycle_view_dialog"
+    android:background="#ff4a4a4a"
+
     >
 <androidx.recyclerview.widget.RecyclerView
     android:layout_width="match_parent"

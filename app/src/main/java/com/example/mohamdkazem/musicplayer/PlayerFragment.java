@@ -1,52 +1,23 @@
 package com.example.mohamdkazem.musicplayer;
 
-import android.content.Context;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.mohamdkazem.musicplayer.model.Artist;
-import com.example.mohamdkazem.musicplayer.model.Music;
 import com.google.android.material.tabs.TabLayout;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 
 public class PlayerFragment extends Fragment {
 
-
-
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private String[] tabTitles={"musics","Artists","Albums","Favorite"};
-
-
-
-
-
 
     public PlayerFragment() {
         // Required empty public constructor
@@ -65,7 +36,6 @@ public class PlayerFragment extends Fragment {
 
     }
 
-
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -81,27 +51,19 @@ public class PlayerFragment extends Fragment {
             @Override
             public Fragment getItem(int position) {
                 if (position == 0) {
-
                     return AllMusicFragment.newInstance();
-
                 }
                 if (position == 1) {
                     return ArtistFragment.newInstance();
-
                 }
                 if (position == 2) {
                     return AlbumFragment.newInstance();
-
                 }
                 if (position == 3) {
-
                     return AllMusicFragment.newInstance();
-
-
                 }
                 return null;
             }
-
 
             @Override
             public int getCount() {
@@ -115,27 +77,8 @@ public class PlayerFragment extends Fragment {
             }
         });
 
-
-//        btnPause.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (mediaPlayer != null) {
-//                    if (mediaPlayer.isPlaying()) {
-//                        mediaPlayer.pause();
-//                        btnPause.setBackgroundResource(R.drawable.btn_pause);
-//                    }else
-//                        mediaPlayer.start();
-//                        btnPause.setBackgroundResource(R.drawable.btn_play);
-//                }
-//            }
-//        });
-
         return view;
     }
-
-
-
-
 
 }
 

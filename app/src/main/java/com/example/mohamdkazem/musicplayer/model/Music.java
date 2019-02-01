@@ -1,6 +1,5 @@
 package com.example.mohamdkazem.musicplayer.model;
 
-
 public class Music {
 
     private Long musicId;

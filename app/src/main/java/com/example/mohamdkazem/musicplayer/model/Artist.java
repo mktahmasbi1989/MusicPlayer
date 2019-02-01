@@ -1,7 +1,5 @@
 package com.example.mohamdkazem.musicplayer.model;
 
-import java.util.List;
-
 public class Artist {
 
 

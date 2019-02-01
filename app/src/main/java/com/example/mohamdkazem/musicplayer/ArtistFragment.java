@@ -1,21 +1,14 @@
 package com.example.mohamdkazem.musicplayer;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.mohamdkazem.musicplayer.model.Artist;
-import com.example.mohamdkazem.musicplayer.model.Music;
-
 import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -41,12 +34,10 @@ public class ArtistFragment extends Fragment {
     public ArtistFragment() {
     }
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         musicPlayer = new MusicPlayer(getActivity());
-
     }
 
     @Override
@@ -61,7 +52,7 @@ public class ArtistFragment extends Fragment {
         return view;
     }
 
-    public class ArtistsHolder extends RecyclerView.ViewHolder{
+    class ArtistsHolder extends RecyclerView.ViewHolder{
 
 
         private Artist mArtist;
@@ -69,7 +60,7 @@ public class ArtistFragment extends Fragment {
         private TextView textViewAlbumName,textViewArtistName;
 
 
-        public ArtistsHolder(@NonNull View itemView) {
+        ArtistsHolder(@NonNull View itemView) {
             super(itemView);
             imageView=itemView.findViewById(R.id.image_view_card_artist);
             textViewAlbumName =itemView.findViewById(R.id.textView_album_name);
@@ -79,7 +70,7 @@ public class ArtistFragment extends Fragment {
         }
 
 
-        public void bindArtist(Artist artist) {
+        void bindArtist(Artist artist) {
             mArtist = artist;
             textViewAlbumName.setText(artist.getArtistName());
             textViewArtistName.setText(artist.getNumberOfTraks()+"  album /  " +artist.getNumberOfTraks()+" trak ");
@@ -93,7 +84,7 @@ public class ArtistFragment extends Fragment {
         private List<Artist> artistList;
 
 
-        public ArtistAdaptor(List<Artist> artistList) {
+        ArtistAdaptor(List<Artist> artistList) {
             this.artistList = artistList;
         }
 

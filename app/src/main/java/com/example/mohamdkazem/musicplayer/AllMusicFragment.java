@@ -1,23 +1,14 @@
 package com.example.mohamdkazem.musicplayer;
-
-
 import android.content.Context;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.mohamdkazem.musicplayer.model.Music;
-
 import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -33,11 +24,6 @@ public class AllMusicFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private MusicPlayer musicPlayer;
-    private MediaPlayer mediaPlayer ;
-    private ImageButton btnPause;
-    private int duration;
-    private TextView textTotalDurataion, textDuration;
-    private SeekBar mSeekBar;
     private CallBacks mCallBacks;
     private AllMusicAdaptor allMusicAdaptor;
 
@@ -73,7 +59,6 @@ public class AllMusicFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         musicPlayer = new MusicPlayer(getActivity());
-        mediaPlayer=new MediaPlayer();
     }
 
     @Override
@@ -92,14 +77,13 @@ public class AllMusicFragment extends Fragment {
     }
     private class MusicHolder extends RecyclerView.ViewHolder {
 
-        private ConstraintLayout constraintLayout;
         private Music mMusic;
         private TextView textView;
         private ImageView imageView;
+        private ConstraintLayout constraintLayout;
 
-        public MusicHolder(@NonNull final View itemView) {
+        MusicHolder(@NonNull final View itemView) {
             super(itemView);
-            constraintLayout = itemView.findViewById(R.id.holder);
             textView=itemView.findViewById(R.id.textView);
             imageView=itemView.findViewById(R.id.image_view);
 
@@ -109,48 +93,14 @@ public class AllMusicFragment extends Fragment {
                     try {
                         mCallBacks.playMusic(mMusic.getMusicId());
 
-//                        mediaPlayer=new MediaPlayer();
-//                        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-//                        mediaPlayer.setDataSource(getActivity(), Uri.parse(mMusic.getUri()));
-//                        mediaPlayer.prepare();
-//                        mediaPlayer.start();
-
-//                        btnPause.setBackgroundResource(R.drawable.btn_pause);
-//                        setTotalDuration();
-//                        mSeekBar.setMax(mediaPlayer.getDuration());
-//                        mUpdateSeekbar.run();
-
-//                        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//                            @Override
-//                            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                                if (fromUser) {
-//                                    mSeekBar.setProgress(progress);
-//                                    mediaPlayer.seekTo(progress);
-//                                    mUpdateSeekbar.run();
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//                            }
-//                        });
-
                     } catch (IllegalArgumentException e) {
-                        e.printStackTrace();
-                    } catch (IllegalStateException e) {
                         e.printStackTrace();
                     }
                 }
             });
         }
 
-        public void bindMusic(Music music) {
+        void bindMusic(Music music) {
             mMusic = music;
             textView.setText(music.getTitle());
             imageView.setImageURI(Uri.parse(mMusic.getImageUri()));
@@ -161,7 +111,7 @@ public class AllMusicFragment extends Fragment {
 
         private List<Music> musicList;
 
-        public AllMusicAdaptor(List<Music> musicList) {
+        AllMusicAdaptor(List<Music> musicList) {
             this.musicList = musicList;
         }
 

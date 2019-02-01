@@ -5,9 +5,9 @@
     android:id="@+id/holder"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="@color/design_default_color_background"
-    android:backgroundTint="@color/design_default_color_background"
-    android:orientation="vertical">
+    android:orientation="vertical"
+
+    >
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/image_view"
@@ -35,19 +35,23 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="#ffff"
+        >
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textView"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:text="Name" />
+            android:text="Name"
+            android:textColor="#ffff"
+            />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textView2"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:background="@color/design_default_color_background" />
+             />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -1,6 +1,5 @@
 package com.example.mohamdkazem.musicplayer;
 
-
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -10,31 +9,36 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mohamdkazem.musicplayer.model.Music;
-
 import java.io.IOException;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 public class PlayerActivity extends SingleFragmentActivity implements AllMusicFragment.CallBacks {
 
 
     private MusicPlayer musicPlayer;
     private MediaPlayer mediaPlayer;
-    private ImageButton btnPlay;
-    private TextView textTotalDurataion, textDuration;
+    private ImageButton btnPlay,btnrepeate,btnNext,btnPrevious,btnShuffle;
+    private TextView textTotalDuration, textDuration;
     private SeekBar mSeekBar;
     private int duration;
+    private boolean flagRepeat=false,shuffle=false;
+    private Long musicIndex;
+    private  int listSize=1;
 
-    private Handler mSeekbarUpdateHandler = new Handler();
+    private Handler mSeekBarUpdateHandler = new Handler();
 
-    private Runnable mUpdateSeekbar = new Runnable() {
+    private Runnable mUpdateSeekBar = new Runnable() {
         @Override
         public void run() {
             mSeekBar.setProgress(mediaPlayer.getCurrentPosition());
-            mSeekbarUpdateHandler.postDelayed(this, 50);
+            mSeekBarUpdateHandler.postDelayed(this, 50);
             setCurrentDuration();
         }
     };
@@ -45,7 +49,7 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
                 TimeUnit.MILLISECONDS.toMinutes(duration),
                 TimeUnit.MILLISECONDS.toSeconds(duration) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration)));
-        textTotalDurataion.setText(currTime);
+        textTotalDuration.setText(currTime);
     }
 
     private void setCurrentDuration() {
@@ -69,24 +73,91 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
 
-        textTotalDurataion = findViewById(R.id.seek_bar_total_duration);
+        textTotalDuration = findViewById(R.id.seek_bar_total_duration);
         textDuration = findViewById(R.id.seek_bar_duration);
         mSeekBar = findViewById(R.id.seekBar_activity);
         btnPlay = findViewById(R.id.btn_play_control);
+        btnPrevious=findViewById(R.id.btnPrevious);
+        btnrepeate=findViewById(R.id.btnRepeat);
+        btnShuffle=findViewById(R.id.btnShuffle);
+        btnNext=findViewById(R.id.btnNext);
         musicPlayer = new MusicPlayer(getApplicationContext());
+        listSize=musicPlayer.getMusicList().size();
         mediaPlayer = new MediaPlayer();
 
-//                FragmentManager fragmentManager=getSupportFragmentManager();
-//                fragmentManager.beginTransaction().add(R.id.activity_player,PlayerControlFragment.newInstance(),"control").commit();
+        btnrepeate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!flagRepeat){
+                    flagRepeat=true;
+                    btnrepeate.setBackgroundResource(R.drawable.img_btn_repeat_pressed);
+                }else if (flagRepeat){
+                    btnrepeate.setBackgroundResource(R.drawable.img_btn_repeat);
+                    flagRepeat=false;
 
+                }
+            }
+        });
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.stop();
+                    playMusic(musicIndex + 1);
+                }
+            }
+        });
+        btnPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.stop();
+                    playMusic(musicIndex - 1);
+                }
+            }
+        });
+
+        btnShuffle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shuffleCheck();
+            }
+        });
 
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mediaPlayer.pause();
+                btnPlay.setBackgroundResource(R.drawable.btn_play);
             }
         });
 
+        btnPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mediaPlayer != null) {
+                    if (mediaPlayer.isPlaying()) {
+                        mediaPlayer.pause();
+                        btnPlay.setBackgroundResource(R.drawable.btn_pause);
+                    }else
+                        mediaPlayer.start();
+                        btnPlay.setBackgroundResource(R.drawable.btn_play);
+                }
+            }
+        });
+    }
+
+    private void shuffleCheck() {
+        if (!shuffle) {
+            shuffle = true;
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+                Random random = new Random();
+                int random_id=random.nextInt(listSize);
+                Long randomid= Long.valueOf(random_id);
+                playMusic(randomid);
+            }
+        }
     }
 
     @Override
@@ -94,21 +165,26 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
         try {
             mediaPlayer = new MediaPlayer();
             Music music = musicPlayer.getMusic(musicId);
+            musicIndex=musicId;
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            shuffleCheck();
             mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(music.getUri()));
             mediaPlayer.prepare();
             mediaPlayer.start();
+            if (flagRepeat){
+                mediaPlayer.setLooping(true);
+            }
 
             setTotalDuration();
             mSeekBar.setMax(mediaPlayer.getDuration());
-            mUpdateSeekbar.run();
+            mUpdateSeekBar.run();
             mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                     if (fromUser) {
                         mSeekBar.setProgress(progress);
                         mediaPlayer.seekTo(progress);
-                        mUpdateSeekbar.run();
+                        mUpdateSeekBar.run();
                     }
                 }
 

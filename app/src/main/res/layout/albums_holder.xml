@@ -23,7 +23,9 @@
         android:layout_gravity="bottom"
         android:gravity="center"
         android:textSize="14sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="#ffff"
+        />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textView_artistName"
@@ -31,6 +33,7 @@
         android:layout_height="30dp"
         android:layout_gravity="bottom"
         android:gravity="center"
+        android:textColor="#ffff"
 
         />
 </androidx.appcompat.widget.LinearLayoutCompat>

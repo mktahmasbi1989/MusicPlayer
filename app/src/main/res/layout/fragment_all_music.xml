@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".AllMusicFragment"
     android:id="@+id/recycle_view_all_music"
+    android:background="@color/primaryColor1"
+
     >
 
 </androidx.recyclerview.widget.RecyclerView>

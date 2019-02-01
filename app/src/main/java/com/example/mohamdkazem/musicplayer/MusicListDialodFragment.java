@@ -1,7 +1,7 @@
 package com.example.mohamdkazem.musicplayer;
 
-
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
@@ -11,14 +11,13 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mohamdkazem.musicplayer.model.Music;
 
+import java.util.Calendar;
 import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -30,21 +29,34 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MusicListDialodFragment extends DialogFragment {
+public class MusicListDialodFragment extends DialogFragment implements AllMusicFragment.CallBacks {
 
 
-    private static final String ARTIST_ID = "albumId";
+    private static final String ALBUM_ID = "albumId";
     private String albumName;
     private RecyclerView recyclerView;
     private MusicAdaptorDialog musicAdaptor;
     private MusicPlayer musicPlayer;
     private MediaPlayer mediaPlayer;
+    private AllMusicFragment.CallBacks mCallBacks;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mCallBacks = (AllMusicFragment.CallBacks) context;
+    }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallBacks=null;
+    }
+
 
 
     public static MusicListDialodFragment newInstance(String albumName) {
 
         Bundle args = new Bundle();
-        args.putString(ARTIST_ID, albumName);
+        args.putString(ALBUM_ID, albumName);
         MusicListDialodFragment fragment = new MusicListDialodFragment();
         fragment.setArguments(args);
         return fragment;
@@ -68,7 +80,7 @@ public class MusicListDialodFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        albumName = getArguments().getString(ARTIST_ID);
+        albumName = getArguments().getString(ALBUM_ID);
         musicPlayer = new MusicPlayer(getActivity());
         mediaPlayer=new MediaPlayer();
 
@@ -87,29 +99,48 @@ public class MusicListDialodFragment extends DialogFragment {
         return view;
     }
 
+    @Override
+    public void playMusic(Long musicId) {
+
+    }
+
+
     private class MusicHolderDialog extends RecyclerView.ViewHolder {
         private ConstraintLayout constraintLayout;
         private TextView textView;
         private ImageView imageView;
         private Music music;
 
-        public MusicHolderDialog(@NonNull View itemView) {
+        MusicHolderDialog(@NonNull View itemView) {
             super(itemView);
             constraintLayout = itemView.findViewById(R.id.holder);
             textView=itemView.findViewById(R.id.textView);
             imageView=itemView.findViewById(R.id.image_view);
+            constraintLayout=itemView.findViewById(R.id.holder);
+
         }
-        public void bindMusic(Music music) {
-            music = music;
+        void bindMusic(Music musi) {
+            music = musi;
             textView.setText(music.getTitle());
             imageView.setImageURI(Uri.parse(music.getImageUri()));
+            constraintLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mCallBacks.playMusic(music.getMusicId());
+                    getFragmentManager().beginTransaction()
+                            .remove(getFragmentManager()
+                                    .findFragmentById(R.id.fragment_container))
+                            .commit();
+
+                }
+            });
         }
     }
     public class MusicAdaptorDialog extends RecyclerView.Adapter<MusicHolderDialog>{
 
         private List<Music> musicList;
 
-        public MusicAdaptorDialog(List<Music> musicList) {
+        MusicAdaptorDialog(List<Music> musicList) {
             this.musicList = musicList;
         }
 

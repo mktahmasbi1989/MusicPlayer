@@ -3,10 +3,14 @@
     <color name="colorPrimary">#8eaeca</color>
     <color name="colorPrimaryDark">#ac9eda</color>
     <color name="colorAccent">#120086</color>
-    <color name="primaryColor1">#ba68c8</color>
-    <color name="primaryLightColor1">#ee98fb</color>
-    <color name="primaryDarkColor1">#883997</color>
-    <color name="primaryTextColor1">#000000</color>
+
+    <color name="mydark">#ff4a4a4a</color>
+    <color name="primaryColor1">#616161</color>
+    <color name="primaryLightColor1">#8e8e8e</color>
+    <color name="primaryDarkColor1">#373737</color>
+    <color name="primaryTextColor1">#ffffff</color>
+
+
 
 </resources>
 
