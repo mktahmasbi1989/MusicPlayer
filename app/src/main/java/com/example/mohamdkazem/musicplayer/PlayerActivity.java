@@ -102,19 +102,14 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mediaPlayer.isPlaying()) {
-                    mediaPlayer.stop();
-                    playMusic(musicIndex + 1);
-                }
+                MusicLab.getInstance(getApplicationContext()).nextMusic();
             }
         });
         btnPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mediaPlayer.isPlaying()) {
-                    mediaPlayer.stop();
-                    playMusic(musicIndex - 1);
-                }
+                MusicLab.getInstance(getApplicationContext()).previous();
+
             }
         });
 
@@ -124,26 +119,19 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
                 shuffleCheck();
             }
         });
+//
+//        btnPlay.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mediaPlayer.pause();
+//                btnPlay.setBackgroundResource(R.drawable.btn_play);
+//            }
+//        });
 
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaPlayer.pause();
-                btnPlay.setBackgroundResource(R.drawable.btn_play);
-            }
-        });
-
-        btnPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mediaPlayer != null) {
-                    if (mediaPlayer.isPlaying()) {
-                        mediaPlayer.pause();
-                        btnPlay.setBackgroundResource(R.drawable.btn_pause);
-                    }else
-                        mediaPlayer.start();
-                        btnPlay.setBackgroundResource(R.drawable.btn_play);
-                }
+                MusicLab.getInstance(getApplicationContext()).PlayAndPause();
             }
         });
     }

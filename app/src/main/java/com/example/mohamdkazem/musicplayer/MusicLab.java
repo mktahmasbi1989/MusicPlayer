@@ -19,11 +19,15 @@ import java.util.List;
 public class MusicLab {
 
     private static MusicLab ourInstance ;
+
     private MediaPlayer mediaPlayer;
     private Context mContext;
     private List<Music> musicList=new ArrayList<>() ;
     private List<Artist> artistList =new ArrayList<>();
     private List<Album> albumList=new ArrayList<>() ;
+    private Long currentId;
+    private Music currentMusic;
+
 
     public static MusicLab getInstance(Context context) {
         if (ourInstance==null){
@@ -41,6 +45,9 @@ public class MusicLab {
 
     }
 
+    public MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
+    }
     public List<Album> getAlbumList() {
         return albumList;
     }
@@ -49,26 +56,6 @@ public class MusicLab {
     }
     public List<Artist> getArtistList() {
         return artistList;
-    }
-
-    public List<Music> getalbumMusicList(String aubumName){
-        List<Music> musicAlbumList=new ArrayList<>();
-        for (int i = 0; i <musicList.size() ; i++) {
-            if (musicList.get(i).getAlbum().equals(aubumName)){
-                musicAlbumList.add(musicList.get(i));
-            }
-        }
-        return musicAlbumList;
-    }
-
-    public List<Music> getArtistMusicList(String artistName){
-        List<Music> artistMusicList=new ArrayList<>();
-        for (int i = 0; i <musicList.size() ; i++) {
-            if (musicList.get(i).getArtistName().equals(artistName)){
-                artistMusicList.add(musicList.get(i));
-            }
-        }
-        return artistMusicList;
     }
 
     public Music getMusic(Long musicId) {
@@ -110,6 +97,7 @@ public class MusicLab {
             } while (songCursor.moveToNext());
         }
     }
+
     private  void getAlbums(){
         ContentResolver contentResolver = mContext.getContentResolver();
         Uri songUri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
@@ -132,6 +120,7 @@ public class MusicLab {
             } while (songCursor.moveToNext());
         }
     }
+
     private void loadMusic() {
         ContentResolver contentResolver = mContext.getContentResolver();
         Uri songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
@@ -163,7 +152,6 @@ public class MusicLab {
         }
     }
 
-
     public String getMusicArtPath(Long albumId){
         Cursor cursor=mContext.getContentResolver().query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
                 new String[]{MediaStore.Audio.Albums._ID, MediaStore.Audio.Albums.ALBUM_ART},
@@ -190,10 +178,31 @@ public class MusicLab {
         return null;
     }
 
+    public List<Music> getAlbumMusicList(String albumName){
+        List<Music> musicAlbumList=new ArrayList<>();
+        for (int i = 0; i <musicList.size() ; i++) {
+            if (musicList.get(i).getAlbum().equals(albumName)){
+                musicAlbumList.add(musicList.get(i));
+            }
+        }
+        return musicAlbumList;
+    }
 
-    public void PlayMusic(Long MusicId,Context context){
+    public List<Music> getArtistMusicList(String artistName){
+        List<Music> artistMusicList=new ArrayList<>();
+        for (int i = 0; i <musicList.size() ; i++) {
+            if (musicList.get(i).getArtistName().equals(artistName)){
+                artistMusicList.add(musicList.get(i));
+            }
+        }
+        return artistMusicList;
+    }
+
+    public void playMusic(Long MusicId,Context context){
 
             Music music = getMusic(MusicId);
+            currentMusic=music;
+            currentId=MusicId;
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.reset();
             try {
@@ -205,5 +214,27 @@ public class MusicLab {
             }
 
     }
+    public void PlayAndPause(){
+        if (mediaPlayer.isPlaying()){
+            mediaPlayer.pause();
+        }else  mediaPlayer.start();
+    }
+
+    public void nextMusic(){
+        if (mediaPlayer.isPlaying()){
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            MusicLab.getInstance(mContext).playMusic(currentId+1,mContext);
+        }
+    }
+
+    public void previous(){
+        if (mediaPlayer.isPlaying()){
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            MusicLab.getInstance(mContext).playMusic(currentId-1,mContext);
+        }
+    }
+
 
 }

@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 
 import com.example.mohamdkazem.musicplayer.model.Music;
 
-import java.util.Calendar;
 import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -90,7 +88,7 @@ public class MusicListDialodFragment extends DialogFragment implements AllMusicF
         View view = inflater.inflate(R.layout.fragment_music_list_dialod, container, false);
         recyclerView= view.findViewById(R.id.recycle_view_dialog);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-        musicAdaptor = new MusicAdaptorDialog(MusicLab.getInstance(getContext()).getalbumMusicList(albumName));
+        musicAdaptor = new MusicAdaptorDialog(MusicLab.getInstance(getContext()).getAlbumMusicList(albumName));
         recyclerView.setAdapter(musicAdaptor);
         return view;
     }

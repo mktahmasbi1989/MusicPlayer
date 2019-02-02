@@ -89,7 +89,7 @@ public class AllMusicFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     try {
-                        MusicLab.getInstance(getActivity()).PlayMusic(mMusic.getMusicId(),getActivity());
+                        MusicLab.getInstance(getActivity()).playMusic(mMusic.getMusicId(),getActivity());
 //                        mCallBacks.playMusic(mMusic.getMusicId());
 
                     } catch (IllegalArgumentException e) {
