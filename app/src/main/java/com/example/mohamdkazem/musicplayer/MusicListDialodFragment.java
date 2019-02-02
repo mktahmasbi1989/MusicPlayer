@@ -112,14 +112,15 @@ public class MusicListDialodFragment extends DialogFragment implements AllMusicF
             constraintLayout=itemView.findViewById(R.id.holder);
 
         }
-        void bindMusic(Music musi) {
+        void bindMusic(final Music musi) {
             music = musi;
             textView.setText(music.getTitle());
             imageView.setImageURI(Uri.parse(music.getImageUri()));
             constraintLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mCallBacks.playMusic(music.getMusicId());
+                    MusicLab.getInstance(getActivity()).playMusic(musi.getMusicId(),getActivity());
+//                    mCallBacks.playMusic(music.getMusicId());
                     getFragmentManager().beginTransaction()
                             .remove(getFragmentManager()
                                     .findFragmentById(R.id.fragment_container))

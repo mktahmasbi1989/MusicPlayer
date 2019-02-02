@@ -15,6 +15,7 @@ import com.example.mohamdkazem.musicplayer.model.Music;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MusicLab {
 
@@ -235,6 +236,14 @@ public class MusicLab {
             MusicLab.getInstance(mContext).playMusic(currentId-1,mContext);
         }
     }
+
+    public boolean chechPlay(){
+        if (mediaPlayer.isPlaying()){
+            return true;
+        }else return false;
+    }
+
+
 
 
 }

@@ -106,7 +106,8 @@ public class ArtistMusicListFragment extends Fragment implements AllMusicFragmen
             constraintLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mCallBacks.playMusic(music.getMusicId());
+//                    mCallBacks.playMusic(music.getMusicId());
+                    MusicLab.getInstance(getActivity()).playMusic(music.getMusicId(),getActivity());
                     getFragmentManager().beginTransaction()
                             .remove(getFragmentManager()
                                     .findFragmentById(R.id.fragment_container))

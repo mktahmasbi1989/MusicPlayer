@@ -45,7 +45,7 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
     };
 
     private void setTotalDuration() {
-        duration = mediaPlayer.getDuration();
+        duration = MusicLab.getInstance(getApplicationContext()).getMediaPlayer().getDuration();
         String currTime = String.format("%02d:%02d",
                 TimeUnit.MILLISECONDS.toMinutes(duration),
                 TimeUnit.MILLISECONDS.toSeconds(duration) -
@@ -103,12 +103,15 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
             @Override
             public void onClick(View v) {
                 MusicLab.getInstance(getApplicationContext()).nextMusic();
+                chechBtnPlayIcon();
+
             }
         });
         btnPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MusicLab.getInstance(getApplicationContext()).previous();
+                chechBtnPlayIcon();
 
             }
         });
@@ -132,8 +135,17 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
             @Override
             public void onClick(View v) {
                 MusicLab.getInstance(getApplicationContext()).PlayAndPause();
+                chechBtnPlayIcon();
+
             }
         });
+    }
+
+    private void chechBtnPlayIcon() {
+        if(MusicLab.getInstance(getApplicationContext()).chechPlay()){
+        btnPlay.setBackgroundResource(R.drawable.btn_play);
+        }else
+            btnPlay.setBackgroundResource(R.drawable.btn_pause);
     }
 
     private void shuffleCheck() {
