@@ -30,6 +30,7 @@ public class MusicLab {
     private Music currentMusic;
 
 
+
     public static MusicLab getInstance(Context context) {
         if (ourInstance==null){
             ourInstance=new MusicLab(context);
@@ -49,6 +50,7 @@ public class MusicLab {
     public MediaPlayer getMediaPlayer() {
         return mediaPlayer;
     }
+
     public List<Album> getAlbumList() {
         return albumList;
     }
@@ -57,6 +59,9 @@ public class MusicLab {
     }
     public List<Artist> getArtistList() {
         return artistList;
+    }
+    public Long getCurrentId() {
+        return currentId;
     }
 
     public Music getMusic(Long musicId) {
@@ -199,7 +204,7 @@ public class MusicLab {
         return artistMusicList;
     }
 
-    public void playMusic(Long MusicId,Context context){
+    public void  playMusic(Long MusicId,Context context){
 
             Music music = getMusic(MusicId);
             currentMusic=music;
@@ -243,6 +248,18 @@ public class MusicLab {
         }else return false;
     }
 
+    public String setTotalDuration() {
+        int duration = MusicLab.getInstance(mContext).getMediaPlayer().getDuration();
+        String currTime = String.format("%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(duration),
+                TimeUnit.MILLISECONDS.toSeconds(duration) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration)));
+        return currTime;
+    }
+
+    public void repeateMusic(){
+
+    }
 
 
 

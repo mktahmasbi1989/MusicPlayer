@@ -1,6 +1,5 @@
 package com.example.mohamdkazem.musicplayer;
 
-import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -14,9 +13,9 @@ import android.widget.Toast;
 
 import com.example.mohamdkazem.musicplayer.model.Music;
 import java.io.IOException;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -29,16 +28,19 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
     private TextView textTotalDuration, textDuration;
     private SeekBar mSeekBar;
     private int duration;
+    private ConstraintLayout constraintLayout;
     private boolean flagRepeat=false,shuffle=false;
     private Long musicIndex;
     private  int listSize=1;
+    private Music music;
 
     private Handler mSeekBarUpdateHandler = new Handler();
 
     private Runnable mUpdateSeekBar = new Runnable() {
         @Override
         public void run() {
-            mSeekBar.setProgress(mediaPlayer.getCurrentPosition());
+//            mSeekBar.setProgress(mediaPlayer.getCurrentPosition());
+            mSeekBar.setProgress(MusicLab.getInstance(getApplicationContext()).getMediaPlayer().getCurrentPosition());
             mSeekBarUpdateHandler.postDelayed(this, 50);
             setCurrentDuration();
         }
@@ -54,7 +56,8 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
     }
 
     private void setCurrentDuration() {
-        duration = mediaPlayer.getCurrentPosition();
+//        duration = mediaPlayer.getCurrentPosition();
+        duration=MusicLab.getInstance(getApplicationContext()).getMediaPlayer().getCurrentPosition();
         String currTime = String.format("%02d:%02d",
                 TimeUnit.MILLISECONDS.toMinutes(duration),
                 TimeUnit.MILLISECONDS.toSeconds(duration) -
@@ -68,9 +71,9 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
         return PlayerFragment.newInstance();
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
 
@@ -81,10 +84,21 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
         btnPrevious=findViewById(R.id.btnPrevious);
         btnrepeate=findViewById(R.id.btnRepeat);
         btnShuffle=findViewById(R.id.btnShuffle);
+        constraintLayout=findViewById(R.id.player_controller);
         btnNext=findViewById(R.id.btnNext);
         musicPlayer = new MusicPlayer(getApplicationContext());
         listSize=musicPlayer.getMusicList().size();
         mediaPlayer = new MediaPlayer();
+
+        constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager=getSupportFragmentManager();
+                fragmentManager.beginTransaction().
+                        add(R.id.activity_player,PlayerControlFragment.newInstance(MusicLab.getInstance(getApplicationContext()).getCurrentId()))
+                        .commit();
+            }
+        });
 
         btnrepeate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +117,6 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
             @Override
             public void onClick(View v) {
                 MusicLab.getInstance(getApplicationContext()).nextMusic();
-                chechBtnPlayIcon();
 
             }
         });
@@ -111,17 +124,16 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
             @Override
             public void onClick(View v) {
                 MusicLab.getInstance(getApplicationContext()).previous();
-                chechBtnPlayIcon();
 
             }
         });
 
-        btnShuffle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                shuffleCheck();
-            }
-        });
+//        btnShuffle.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                shuffleCheck();
+//            }
+//        });
 //
 //        btnPlay.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -135,40 +147,40 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
             @Override
             public void onClick(View v) {
                 MusicLab.getInstance(getApplicationContext()).PlayAndPause();
-                chechBtnPlayIcon();
+                checkBtnPlay();
 
             }
         });
     }
 
-    private void chechBtnPlayIcon() {
+    private void checkBtnPlay() {
         if(MusicLab.getInstance(getApplicationContext()).chechPlay()){
         btnPlay.setBackgroundResource(R.drawable.btn_play);
         }else
             btnPlay.setBackgroundResource(R.drawable.btn_pause);
     }
-
-    private void shuffleCheck() {
-        if (!shuffle) {
-            shuffle = true;
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-                Random random = new Random();
-                int random_id=random.nextInt(listSize);
-                Long randomid= Long.valueOf(random_id);
-                playMusic(randomid);
-            }
-        }
-    }
+//
+//    private void shuffleCheck() {
+//        if (!shuffle) {
+//            shuffle = true;
+//            if (mediaPlayer.isPlaying()) {
+//                mediaPlayer.stop();
+//                Random random = new Random();
+//                int random_id=random.nextInt(listSize);
+//                Long randomid= Long.valueOf(random_id);
+//                playMusic(randomid);
+//            }
+//        }
+//    }
 
     @Override
     public void playMusic(Long musicId) {
         try {
             mediaPlayer = new MediaPlayer();
-            Music music = musicPlayer.getMusic(musicId);
+            music = musicPlayer.getMusic(musicId);
             musicIndex=musicId;
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            shuffleCheck();
+//            shuffleCheck();
             mediaPlayer.reset();
             mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(music.getUri()));
             mediaPlayer.prepare();
