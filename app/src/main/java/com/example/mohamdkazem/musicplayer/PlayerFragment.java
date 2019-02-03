@@ -60,7 +60,7 @@ public class PlayerFragment extends Fragment {
                     return AlbumFragment.newInstance();
                 }
                 if (position == 3) {
-                    return AllMusicFragment.newInstance();
+                    return FavaritMusicsFragment.newInstance();
                 }
 
                 return null;

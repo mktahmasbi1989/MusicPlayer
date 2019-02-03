@@ -1,25 +1,17 @@
 package com.example.mohamdkazem.musicplayer;
 
-
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.mohamdkazem.musicplayer.model.Music;
-
 import java.util.concurrent.TimeUnit;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -106,7 +98,6 @@ public class PlayerControlFragment extends Fragment {
         btnFavorite=view.findViewById(R.id.btnFavorite);
         recyclerView=view.findViewById(R.id.beat_box_recycler_view);
 
-
         setFavoriteButton();
 
 
@@ -127,7 +118,6 @@ public class PlayerControlFragment extends Fragment {
             }
         });
         setTotalDuration();
-
 
         mSeekBar.setMax(MusicLab.getInstance(getActivity()).getMediaPlayer().getDuration());
         mUpdateSeekBar.run();
