@@ -62,12 +62,13 @@ public class PlayerFragment extends Fragment {
                 if (position == 3) {
                     return AllMusicFragment.newInstance();
                 }
+
                 return null;
             }
 
             @Override
             public int getCount() {
-                return 3;
+                return 4;
             }
 
             @Nullable

@@ -261,6 +261,24 @@ public class MusicLab {
 
     }
 
+    public List<Music> getFavoriteMusics(){
+        List<Music> favoriteList=new ArrayList<>();{
+            for (int i = 0; i <musicList.size() ; i++) {
+                if (musicList.get(i).isFavorite()){
+                    favoriteList.add(musicList.get(i));
+                }
+            }return  favoriteList;
+        }
+    }
+
+    public void setFavoiteMusic(Long musicId,boolean favoite){
+        for (int i = 0; i <musicList.size() ; i++) {
+            if (musicList.get(i).getMusicId().equals(musicId)){
+                musicList.get(i).setFavorite(favoite);
+            }
+        }
+    }
+
 
 
 }

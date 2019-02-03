@@ -10,6 +10,7 @@ public class Music {
     private Long artistId;
     private Long albumId;
     private String imageUri;
+    private boolean favorite;
 
 
     public Music(Long musicId, String title, String artistName, String album, String uri,Long artisId,String imageArtUri ) {
@@ -20,9 +21,16 @@ public class Music {
         this.uri=uri;
         this.artistId=artisId;
         this.imageUri=imageArtUri;
+        this.favorite=false;
 
     }
 
+    public boolean isFavorite() {
+        return favorite;
+    }
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
     public String getImageUri() {
         return imageUri;
     }

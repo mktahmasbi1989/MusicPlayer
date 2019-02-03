@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mohamdkazem.musicplayer.model.Music;
 
@@ -27,13 +28,14 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class PlayerControlFragment extends Fragment {
     private static final String MUSIC_ID = "misicId";
-    private ImageButton btnBack,btnPlay,btnNext,btnPrevious,btnrepeate,btnShuffle;
+    private ImageButton btnBack,btnPlay,btnNext,btnPrevious,btnrepeate,btnShuffle,btnFavorite;
     private TextView textViewMusicTitle,totalDuration,currentDuration;
     private Music music;
     private Long music_id;
     private SeekBar mSeekBar;
     private int duration;
     private RecyclerView recyclerView;
+    private boolean favoriteState;
 
 
 
@@ -85,6 +87,7 @@ public class PlayerControlFragment extends Fragment {
         super.onCreate(savedInstanceState);
         music_id=getArguments().getLong(MUSIC_ID);
         music=MusicLab.getInstance(getActivity()).getMusic(music_id);
+        favoriteState=music.isFavorite();
     }
 
     @Override
@@ -100,8 +103,29 @@ public class PlayerControlFragment extends Fragment {
         totalDuration=view.findViewById(R.id.songTotalDurationLabel);
         currentDuration=view.findViewById(R.id.songCurentDurationLabel);
         mSeekBar=view.findViewById(R.id.songProgressBar);
+        btnFavorite=view.findViewById(R.id.btnFavorite);
         recyclerView=view.findViewById(R.id.beat_box_recycler_view);
 
+
+        setFavoriteButton();
+
+
+        btnFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (favoriteState) {
+
+                    MusicLab.getInstance(getActivity()).setFavoiteMusic(music_id, false);
+                    favoriteState=false;
+                    setFavoriteButton();
+
+                }else
+                    MusicLab.getInstance(getActivity()).setFavoiteMusic(music_id,true);
+                    favoriteState=true;
+                    setFavoriteButton();
+
+            }
+        });
         setTotalDuration();
 
 
@@ -165,6 +189,14 @@ public class PlayerControlFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void setFavoriteButton() {
+        favoriteState=music.isFavorite();
+        if (favoriteState){
+            btnFavorite.setBackgroundResource(R.drawable.icons_heart_outline);
+        }if (!favoriteState)
+            btnFavorite.setBackgroundResource(R.drawable.favoteicons);
     }
 
 }

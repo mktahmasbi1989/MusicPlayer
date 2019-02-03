@@ -180,13 +180,23 @@
             android:id="@+id/btnShuffle"
             android:layout_width="50dp"
             android:layout_height="45dp"
-            android:background="@drawable/img_btn_shuffle"/>
+            android:background="@drawable/img_btn_shuffle"
+
+            />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btnRepeat"
             android:layout_width="50dp"
             android:layout_height="45dp"
             android:background="@drawable/img_btn_repeat"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="50dp"
+            android:layout_height="45dp"
+            android:background="@drawable/favoteicons"
+            android:id="@+id/btnFavorite"
+            />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
