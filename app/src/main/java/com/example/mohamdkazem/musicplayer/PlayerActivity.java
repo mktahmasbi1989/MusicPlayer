@@ -5,16 +5,21 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.SearchView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.mohamdkazem.musicplayer.model.Music;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import androidx.appcompat.widget.ToolbarWidgetWrapper;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -24,7 +29,7 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
 
     private MusicPlayer musicPlayer;
     private MediaPlayer mediaPlayer;
-    private ImageButton btnPlay,btnrepeate,btnNext,btnPrevious,btnShuffle;
+    private ImageButton btnPlay,btnrepeate,btnNext,btnPrevious,btnShuffle,btnSearch;
     private TextView textTotalDuration, textDuration;
     private SeekBar mSeekBar;
     private int duration;
@@ -33,6 +38,7 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
     private Long musicIndex;
     private  int listSize=1;
     private Music music;
+    private androidx.appcompat.widget.Toolbar toolbar;
 
     private Handler mSeekBarUpdateHandler = new Handler();
 
@@ -72,9 +78,33 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu,menu);
+        MenuItem searchItem = menu.findItem(R.id.searchBar);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setQueryHint("Search People");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        searchView.setIconified(false);
+
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_player);
 
         textTotalDuration = findViewById(R.id.seek_bar_total_duration);
@@ -84,8 +114,24 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
         btnPrevious=findViewById(R.id.btnPrevious);
         btnrepeate=findViewById(R.id.btnRepeat);
         btnShuffle=findViewById(R.id.btnShuffle);
+//        btnSearch=findViewById(R.id.btnSearch);
         constraintLayout=findViewById(R.id.player_controller);
         btnNext=findViewById(R.id.btnNext);
+
+        toolbar=findViewById(R.id.tool_bar);
+        toolbar.inflateMenu(R.menu.menu);
+
+        toolbar.setOnMenuItemClickListener(new androidx.appcompat.widget.Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                SearchMusicFragment searchMusicFragment=SearchMusicFragment.newInstance();
+                searchMusicFragment.show(getSupportFragmentManager(),"search");
+
+                return true;
+            }
+        });
+
+
         musicPlayer = new MusicPlayer(getApplicationContext());
         listSize=musicPlayer.getMusicList().size();
         mediaPlayer = new MediaPlayer();
@@ -135,13 +181,6 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
 //            }
 //        });
 //
-//        btnPlay.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mediaPlayer.pause();
-//                btnPlay.setBackgroundResource(R.drawable.btn_play);
-//            }
-//        });
 
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +190,18 @@ public class PlayerActivity extends SingleFragmentActivity implements AllMusicFr
 
             }
         });
+
+//        btnSearch.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FragmentManager fragmentManager=getSupportFragmentManager();
+//                fragmentManager.beginTransaction().add(R.id.activity_player,AllMusicFragment.newInstance())
+//                        .commit();
+//                AllMusicFragment allMusicFragment=AllMusicFragment.newInstance();
+//                allMusicFragment.show(getSupportFragmentManager(),"search");
+//
+//            }
+//        });
     }
 
     private void checkBtnPlay() {

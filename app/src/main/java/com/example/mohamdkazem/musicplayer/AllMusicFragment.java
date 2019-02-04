@@ -12,6 +12,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AllMusicFragment extends Fragment {
+public class AllMusicFragment extends DialogFragment {
 
     private RecyclerView mRecyclerView;
     private CallBacks mCallBacks;
@@ -70,6 +71,9 @@ public class AllMusicFragment extends Fragment {
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         allMusicAdaptor = new AllMusicAdaptor(MusicLab.getInstance(getContext()).getMusicList());
         mRecyclerView.setAdapter(allMusicAdaptor);
+
+
+
 
         return view;
     }

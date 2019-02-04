@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_player"
@@ -7,7 +7,53 @@
     android:layout_height="match_parent"
     tools:context=".PlayerActivity"
     android:orientation="vertical">
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/tool_bar"
+        android:background="@color/primaryColor1"
+        app:layout_scrollFlags="scroll|enterAlways"
+        >
 
+        <!--<androidx.appcompat.widget.SearchView-->
+            <!--android:layout_width="150dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@color/primaryColor1"-->
+            <!--app:searchIcon="@android:drawable/ic_menu_search">-->
+
+
+        <!--</androidx.appcompat.widget.SearchView>-->
+
+    </androidx.appcompat.widget.Toolbar>
+
+<!--<com.google.android.material.appbar.AppBarLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:id="@+id/app_bar"-->
+
+    <!--&gt;-->
+
+
+    <!--<androidx.appcompat.widget.Toolbar-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/toolBar"-->
+        <!--android:background="#ff11"-->
+
+        <!--&gt;-->
+
+        <!--<androidx.appcompat.widget.AppCompatImageButton-->
+            <!--android:id="@+id/btnSearch"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:layout_height="50dp"-->
+
+            <!--android:background="@android:drawable/ic_menu_search" />-->
+
+
+    <!--</androidx.appcompat.widget.Toolbar>-->
+
+
+<!--</com.google.android.material.appbar.AppBarLayout>-->
 
 <FrameLayout
     android:layout_width="match_parent"
@@ -140,4 +186,4 @@
             app:layout_constraintStart_toEndOf="@+id/btnNext" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
